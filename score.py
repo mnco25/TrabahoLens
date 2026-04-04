@@ -1,15 +1,15 @@
 """
-Score each occupation's AI exposure using Anthropic.
+Score each occupation's AI exposure using OpenRouter (Claude via OpenAI SDK).
 
-Reads occupations_ph.csv, sends each occupation profile to an LLM with a
-Philippine-calibrated rubric, and collects structured scores. Results are
-cached incrementally to scores.json so the script can be resumed if
-interrupted.
+Reads occupations_ph.csv, sends each occupation profile to Claude Haiku via OpenRouter,
+and collects structured scores. Results are cached incrementally to scores.json so the
+script can be resumed if interrupted.
 
 Usage:
-    uv run python score.py
-    uv run python score.py --model claude-haiku-4-5-20251001
-    uv run python score.py --start 0 --end 10   # test on first 10
+    pip install openai python-dotenv  # if not already installed
+    python score.py
+    python score.py --model claude-3-5-haiku
+    python score.py --start 0 --end 10   # test on first 10
 """
 
 import argparse
@@ -17,12 +17,12 @@ import csv
 import json
 import os
 import time
-from anthropic import Anthropic
+from openai import OpenAI
 from dotenv import load_dotenv
 
 load_dotenv()
 
-DEFAULT_MODEL = "claude-haiku-4-5-20251001"
+DEFAULT_MODEL = "claude-3-5-haiku"
 OUTPUT_FILE = "scores.json"
 
 SYSTEM_PROMPT = """\
@@ -65,22 +65,19 @@ Respond ONLY with valid JSON, no other text:
 
 
 def score_occupation(client, text, model):
-    """Send one occupation to the LLM and parse the structured response."""
-    response = client.messages.create(
+    """Send one occupation to Claude via OpenRouter and parse the structured response."""
+    response = client.chat.completions.create(
         model=model,
         max_tokens=350,
         temperature=0.2,
-        system=SYSTEM_PROMPT,
         messages=[
+            {"role": "system", "content": SYSTEM_PROMPT},
             {"role": "user", "content": text},
         ],
     )
-    content = "".join(
-        block.text for block in response.content if getattr(block, "type", "") == "text"
-    )
+    content = response.choices[0].message.content.strip()
 
     # Strip markdown code fences if present
-    content = content.strip()
     if content.startswith("```"):
         content = content.split("\n", 1)[1]  # remove first line
         if content.endswith("```"):
@@ -116,10 +113,19 @@ def main():
     print(f"Already cached: {len(scores)}")
 
     errors = []
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
+    
+    # Get API key from environment (loads from .env)
+    api_key = os.environ.get("OPENROUTER_API_KEY")
     if not api_key:
-        raise RuntimeError("ANTHROPIC_API_KEY is not set in environment or .env")
-    client = Anthropic(api_key=api_key)
+        raise RuntimeError(
+            "OPENROUTER_API_KEY is not set. Get a free key from https://openrouter.ai"
+        )
+    
+    # Initialize OpenAI client pointing to OpenRouter
+    client = OpenAI(
+        api_key=api_key,
+        base_url="https://openrouter.ai/api/v1"
+    )
 
     for i, occ in enumerate(subset):
         title = occ["title"]
@@ -150,7 +156,7 @@ def main():
             print(f"exposure={result['exposure']}")
         except Exception as e:
             print(f"ERROR: {e}")
-            errors.append(slug)
+            errors.append(title)
 
         # Save after each one (incremental checkpoint)
         with open(OUTPUT_FILE, "w") as f:
