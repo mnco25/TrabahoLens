@@ -30,36 +30,37 @@ You are an expert labor economist specializing in the Philippine economy and AI 
 
 Score this occupation's AI Exposure from 0 to 10.
 
-AI Exposure measures how much AI and automation will reshape this occupation in the Philippines
-over the next 5-10 years. Consider both direct automation and indirect demand reduction.
+AI Exposure measures how much AI and automation will reshape this occupation in the
+Philippines over the next 5–10 years. Consider direct automation and indirect demand
+reduction.
 
 PHILIPPINE-SPECIFIC FACTORS:
 
-1. OFW Channel Risk: If this occupation deploys OFWs, AI may automate the destination job
-abroad — eliminating demand for Filipino workers before it affects domestic workers.
+1. OFW Channel Risk: If this occupation has high ofw_share, AI may automate the
+destination job abroad — displacing Filipino workers before domestic effects arrive.
 
-2. Informal Economy Buffer: Very high informal sector share delays automation —
-the informal economy does not automate at the same rate as the formal sector.
+2. Informal Economy Buffer: High informal_share delays automation — informal
+workplaces do not adopt technology at the same rate as formal establishments.
 
-3. Platform/Gig Disruption: Delivery riders and TNVS drivers face algorithmic
-management and logistics automation even without LLM-style AI.
+3. Platform/Gig Disruption: Delivery and transport workers face algorithmic
+management and route optimization — this is real automation even without LLMs.
 
-4. Philippine Infrastructure Reality: Autonomous vehicles, humanoid robots, and
-precision agriculture robots face higher deployment barriers in PH than in the US.
+4. Philippine Infrastructure Reality: Autonomous vehicles, precision agriculture
+robots, and humanoid robots face higher deployment barriers in PH than in the US.
 
 SCORE ANCHORS:
-0-1: Minimal. Physical, highly informal, no realistic automation pathway in 10 years.
-2-3: Low. Physical + strong informal buffer or regulatory protection.
-4-5: Moderate. Mixed work; AI assists but doesn't replace core tasks.
-6-7: High. Knowledge work or significant OFW channel risk.
-8-9: Very high. Digital/routine work; AI already capable of most tasks.
+0–1: Minimal. Physical, highly informal, no realistic automation pathway in 10 years.
+2–3: Low. Physical + strong informal buffer or regulatory protection.
+4–5: Moderate. Mixed work; AI assists but does not replace core tasks.
+6–7: High. Knowledge work or significant OFW channel risk.
+8–9: Very high. Digital or routine work; AI already capable of most tasks.
 10: Maximum. Pure routine digital processing; AI can do this today.
 
-Average expected score: ~4.5-5.0 (lower than US average due to PH labor structure).
+Expected average: ~4.5–5.0 across PH occupations.
 
-Respond ONLY with valid JSON:
-{"exposure": <0-10 number>, "rationale": "<2-3 PH-specific sentences>",
-"primary_risk_vector": "<task_automation|ofw_channel|platform_disruption|demand_reduction|augmentation_only|minimal>"}\
+Respond ONLY with valid JSON, no other text:
+{"exposure": <0–10 number>, "rationale": "<2–3 PH-specific sentences>",
+"primary_risk_vector": "<task_automation|ofw_channel|platform_disruption|demand_reduction|augmentation_only|minimal>"}
 """
 
 
@@ -109,7 +110,7 @@ def main():
     if os.path.exists(OUTPUT_FILE) and not args.force:
         with open(OUTPUT_FILE) as f:
             for entry in json.load(f):
-                scores[entry["slug"]] = entry
+                scores[entry["title"]] = entry
 
     print(f"Scoring {len(subset)} occupations with {args.model}")
     print(f"Already cached: {len(scores)}")
@@ -121,23 +122,20 @@ def main():
     client = Anthropic(api_key=api_key)
 
     for i, occ in enumerate(subset):
-        slug = occ["slug"]
+        title = occ["title"]
 
-        if slug in scores:
+        if title in scores:
             continue
 
-        informal_share_pct = round(float(occ["informal_share"]) * 100, 1)
-        ofw_bool = occ["ofw_channel"].strip().lower() == "true"
         text = (
             f"title: {occ['title']}\n"
             f"psoc_label: {occ['psoc_label']}\n"
             f"category: {occ['category']}\n"
-            f"employment_estimate: {int(float(occ['employment']))}\n"
+            f"employment_estimate: {int(float(occ['employment_estimate']))}\n"
             f"avg_monthly_wage_php: {int(float(occ['avg_monthly_wage_php']))}\n"
-            f"education_min: {occ['education_min']}\n"
-            f"remote_share: {occ['remote_share']}\n"
-            f"ofw_channel: {ofw_bool}\n"
-            f"informal_share: {informal_share_pct}%\n"
+            f"education_label: {occ['education_label']}\n"
+            f"ofw_share: {float(occ['ofw_share']):.2f}\n"
+            f"informal_share: {float(occ['informal_share']):.2f}\n"
             f"description: {occ['description']}"
         )
 
@@ -145,9 +143,8 @@ def main():
 
         try:
             result = score_occupation(client, text, args.model)
-            scores[slug] = {
-                "slug": slug,
-                "title": occ["title"],
+            scores[title] = {
+                "title": title,
                 **result,
             }
             print(f"exposure={result['exposure']}")

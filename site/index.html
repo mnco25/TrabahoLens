@@ -49,12 +49,12 @@
 
       #header {
         padding: 20px 28px 16px;
-        flex-shrink: 0;
       }
 
       .intro {
         margin-bottom: 18px;
       }
+
       .intro h1 {
         font-size: 26px;
         font-weight: 700;
@@ -65,36 +65,43 @@
         gap: 14px;
         flex-wrap: wrap;
       }
+
       .intro h1 a {
         font-size: 13px;
         font-weight: 400;
         color: var(--fg2);
         text-decoration: none;
       }
+
       .intro h1 a:hover {
         text-decoration: underline;
       }
+
       .intro h1 a,
       .intro summary,
       .intro a,
       #footer a {
         transition: color 0.15s ease;
       }
+
       .intro h1 a:hover,
       .intro summary:hover,
       .intro a:hover,
       #footer a:hover {
         color: var(--accent);
       }
+
       .intro p {
         font-size: 15px;
         line-height: 1.6;
         color: var(--fg2);
         margin-bottom: 8px;
       }
+
       .intro a {
         color: var(--fg2);
       }
+
       .intro strong,
       .intro b {
         color: var(--fg);
@@ -104,12 +111,14 @@
       .intro details {
         margin: 10px 0;
       }
+
       .intro summary {
         font-size: 14px;
         color: var(--fg2);
         cursor: pointer;
         user-select: none;
       }
+
       .intro .prompt-box {
         margin-top: 8px;
         background: rgba(0, 0, 0, 0.3);
@@ -141,9 +150,16 @@
         text-align: center;
         letter-spacing: 0.01em;
       }
-      #footer a {
-        color: inherit;
+
+      #footer a,
+      #footer a:visited {
+        color: var(--fg2);
         text-decoration: none;
+      }
+
+      #footer a:hover,
+      #footer a:focus-visible {
+        color: var(--fg);
       }
 
       .stat-section {
@@ -151,6 +167,7 @@
         flex-direction: column;
         gap: 5px;
       }
+
       .stat-section h3 {
         font-size: 11px;
         font-weight: 600;
@@ -158,12 +175,14 @@
         letter-spacing: 0.08em;
         color: var(--fg2);
       }
+
       .stat-big {
         font-size: 32px;
         font-weight: 700;
         letter-spacing: -0.03em;
         line-height: 1;
       }
+
       .stat-label {
         font-size: 11px;
         color: var(--fg2);
@@ -174,27 +193,32 @@
         flex-direction: column;
         gap: 3px;
       }
+
       .tier-row {
         display: flex;
         align-items: center;
         gap: 6px;
         font-size: 12px;
       }
+
       .tier-color {
         width: 10px;
         height: 10px;
         border-radius: 2px;
         flex-shrink: 0;
       }
+
       .tier-name {
         flex: 1;
         color: var(--fg2);
         white-space: nowrap;
       }
+
       .tier-jobs {
         text-align: right;
         white-space: nowrap;
       }
+
       .tier-pct {
         text-align: right;
         width: 30px;
@@ -208,11 +232,13 @@
         gap: 2px;
         height: 54px;
       }
+
       .histogram .bar {
         flex: 1;
         border-radius: 1px 1px 0 0;
         min-height: 1px;
       }
+
       .hist-labels {
         display: flex;
         justify-content: space-between;
@@ -226,12 +252,14 @@
         flex-direction: column;
         gap: 3px;
       }
+
       .hbar-row {
         display: flex;
         align-items: center;
         gap: 6px;
         font-size: 12px;
       }
+
       .hbar-label {
         width: 72px;
         flex-shrink: 0;
@@ -239,6 +267,7 @@
         font-size: 11px;
         text-align: right;
       }
+
       .hbar-track {
         flex: 1;
         height: 12px;
@@ -247,10 +276,12 @@
         overflow: hidden;
         min-width: 36px;
       }
+
       .hbar-fill {
         height: 100%;
         border-radius: 2px;
       }
+
       .hbar-val {
         width: 30px;
         flex-shrink: 0;
@@ -271,6 +302,7 @@
         display: flex;
         gap: 4px;
       }
+
       .color-toggle button {
         padding: 6px 14px;
         font-size: 12px;
@@ -282,11 +314,13 @@
         cursor: pointer;
         transition: all 0.15s;
       }
+
       .color-toggle button.active {
         background: rgba(255, 255, 255, 0.08);
         color: var(--fg);
         border-color: rgba(255, 255, 255, 0.2);
       }
+
       .color-toggle button:hover:not(.active) {
         background: rgba(255, 255, 255, 0.04);
       }
@@ -298,6 +332,7 @@
         font-size: 11px;
         color: var(--fg2);
       }
+
       .gradient-legend canvas {
         border-radius: 2px;
       }
@@ -322,32 +357,39 @@
         z-index: 20;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
       }
+
       #tooltip.visible {
         opacity: 1;
       }
+
       #tooltip .tt-title {
         font-weight: 600;
         font-size: 14px;
         margin-bottom: 6px;
         color: var(--accent);
       }
+
       #tooltip .tt-exposure {
         font-size: 12px;
         margin-bottom: 8px;
       }
+
       #tooltip .tt-stats {
         display: grid;
         grid-template-columns: auto auto;
         gap: 2px 12px;
         font-size: 12px;
       }
+
       #tooltip .tt-stats .label {
         color: var(--fg2);
       }
+
       #tooltip .tt-stats .value {
         color: var(--fg);
         text-align: right;
       }
+
       #tooltip .tt-rationale {
         font-size: 11px;
         color: var(--fg2);
@@ -358,6 +400,10 @@
       }
 
       @media (max-width: 900px) {
+        #wrapper {
+          padding-bottom: 140px;
+        }
+
         #header {
           padding: 16px 18px 12px;
         }
@@ -399,72 +445,20 @@
       }
 
       @media (max-width: 640px) {
-        #wrapper {
-          padding-bottom: 20px;
-        }
-
         #header {
-          padding: 14px 14px 10px;
-        }
-
-        .intro {
-          margin-bottom: 14px;
+          padding: 14px;
         }
 
         .intro h1 {
-          font-size: 18px;
-          line-height: 1.2;
-        }
-
-        .intro h1 a {
-          font-size: 12px;
+          font-size: 19px;
         }
 
         .intro p {
           font-size: 13px;
-          line-height: 1.55;
-        }
-
-        .controls-row {
-          gap: 10px;
-          margin-bottom: 12px;
-        }
-
-        .color-toggle button {
-          padding: 7px 10px;
-          font-size: 11px;
-          flex: 1 1 calc(50% - 4px);
-        }
-
-        .gradient-legend {
-          flex-wrap: wrap;
-          gap: 6px 8px;
-          font-size: 10px;
-        }
-
-        .stats-row {
-          gap: 14px 16px;
-          margin-bottom: 8px;
-        }
-
-        .stat-big {
-          font-size: 26px;
-        }
-
-        .tier-row,
-        .hbar-row {
-          font-size: 11px;
-        }
-
-        .tier-name,
-        .hbar-label,
-        .hbar-val {
-          font-size: 10px;
         }
 
         #footer {
           padding: 12px 14px 0;
-          font-size: 11px;
         }
       }
     </style>
@@ -481,101 +475,53 @@
             This is a research tool that visualizes Philippine occupations using
             curated labor-market fields and PSA-aligned categories. Each
             rectangle's <b>area</b> is proportional to total employment.
-            <b>Color</b> shows the selected metric &mdash; toggle between OFW
-            risk, median pay, education requirements, informal share, and AI
-            exposure. This is not a report, a paper, or a serious economic
-            publication &mdash; it is a development tool for exploring
-            job-structure data visually.
+            <b>Color</b>
+            shows the selected metric — toggle between AI exposure, avg. wage,
+            education, hiring intensity, OFW share, and informal share.
           </p>
           <p>
             <b>LLM-powered coloring:</b> The
             <a href="https://github.com/karpathy/jobs">source code</a> includes
-            scrapers, parsers, and a pipeline for writing custom LLM prompts to
-            score and color occupations by any criteria. You write a prompt, the
-            LLM scores each occupation, and the treemap colors accordingly. The
-            "Digital AI Exposure" option is one example &mdash; it estimates how
-            much current AI (which is primarily digital) will reshape each
-            occupation. But you could write a different prompt for any question
-            &mdash; e.g. exposure to humanoid robotics, offshoring risk, climate
-            impact &mdash; and re-run the pipeline to get a different coloring.
+            a pipeline for writing custom prompts to score and color
+            occupations. The AI exposure layer is one example and can be
+            replaced with any rubric you want.
           </p>
           <details>
-            <summary>
-              View the Digital AI Exposure scoring prompt (example)
-            </summary>
+            <summary>View the AI Exposure scoring prompt (example)</summary>
             <div class="prompt-box">
               You are an expert analyst evaluating how exposed different
-              occupations are to AI. You will be given a detailed description of
-              an occupation from the Bureau of Labor Statistics. Rate the
-              occupation's overall AI Exposure on a scale from 0 to 10. AI
-              Exposure measures: how much will AI reshape this occupation?
-              Consider both direct effects (AI automating tasks currently done
-              by humans) and indirect effects (AI making each worker so
-              productive that fewer are needed). A key signal is whether the
-              job's work product is fundamentally digital. If the job can be
-              done entirely from a home office on a computer — writing, coding,
-              analyzing, communicating — then AI exposure is inherently high
-              (7+), because AI capabilities in digital domains are advancing
-              rapidly. Even if today's AI can't handle every aspect of such a
-              job, the trajectory is steep and the ceiling is very high.
-              Conversely, jobs requiring physical presence, manual skill, or
-              real-time human interaction in the physical world have a natural
-              barrier to AI exposure. Use these anchors to calibrate your score:
-              - 0–1: Minimal exposure. The work is almost entirely physical,
-              hands-on, or requires real-time human presence in unpredictable
-              environments. AI has essentially no impact on daily work.
-              Examples: roofer, landscaper, commercial diver. - 2–3: Low
-              exposure. Mostly physical or interpersonal work. AI might help
-              with minor peripheral tasks (scheduling, paperwork) but doesn't
-              touch the core job. Examples: electrician, plumber, firefighter,
-              dental hygienist. - 4–5: Moderate exposure. A mix of
-              physical/interpersonal work and knowledge work. AI can
-              meaningfully assist with the information-processing parts but a
-              substantial share of the job still requires human presence.
-              Examples: registered nurse, police officer, veterinarian. - 6–7:
-              High exposure. Predominantly knowledge work with some need for
-              human judgment, relationships, or physical presence. AI tools are
-              already useful and workers using AI may be substantially more
-              productive. Examples: teacher, manager, accountant, journalist. -
-              8–9: Very high exposure. The job is almost entirely done on a
-              computer. All core tasks — writing, coding, analyzing, designing,
-              communicating — are in domains where AI is rapidly improving. The
-              occupation faces major restructuring. Examples: software
-              developer, graphic designer, translator, data analyst, paralegal,
-              copywriter. - 10: Maximum exposure. Routine information
-              processing, fully digital, with no physical component. AI can
-              already do most of it today. Examples: data entry clerk,
-              telemarketer. Respond with ONLY a JSON object in this exact
-              format, no other text: {"exposure": &lt;0-10&gt;, "rationale":
-              "&lt;2-3 sentences explaining the key factors&gt;"}
+              occupations are to AI. Rate each occupation on a 0-10 AI Exposure
+              scale and return strict JSON: {"exposure": <0-10>, "rationale":
+              "..."}
             </div>
           </details>
           <p>
-            <b>Caveat on Digital AI Exposure scores:</b> These are rough LLM
-            estimates, not rigorous predictions. A high score does not predict
-            the job will disappear. The score does not account for demand
-            elasticity, latent demand, regulatory barriers, or social
-            preferences for human workers. Many high-exposure jobs will be
-            reshaped, not replaced.
+            <b>Caveat:</b> These are rough model estimates, not deterministic
+            forecasts. High exposure means strong expected task reshaping, not
+            guaranteed job disappearance.
           </p>
-          <p>Data attribution: PSA OpenSTAT LFS, PSA OWS, POEA, and IBPAP.</p>
+          <p>
+            Data attribution: PSA OpenSTAT LFS, PSA OWS, PSA SOF, PhilJobNet,
+            TESDA, IBPAP, and POEA.
+          </p>
         </div>
 
         <div class="controls-row">
           <div class="stat-section">
             <h3>Layer</h3>
             <div class="color-toggle" id="colorToggle">
-              <button data-mode="outlook" class="active">OFW Risk</button>
-              <button data-mode="pay">Median Pay</button>
+              <button data-mode="exposure" class="active">AI Exposure</button>
+              <button data-mode="pay">Avg. Wage (PHP)</button>
               <button data-mode="education">Education</button>
-              <button data-mode="exposure">Digital AI Exposure</button>
+              <button data-mode="outlook">Hiring Intensity</button>
+              <button data-mode="ofw">OFW Share</button>
               <button data-mode="informal">Informal %</button>
             </div>
           </div>
           <div class="gradient-legend">
-            <span id="legendLow">Low risk</span>
+            <span id="legendLow">Low exposure</span>
             <canvas id="gradientLegend" width="80" height="8"></canvas>
-            <span id="legendHigh">High risk</span>
+            <span id="legendHigh">High exposure</span>
           </div>
         </div>
 
@@ -597,8 +543,7 @@
       <canvas id="canvas"></canvas>
 
       <footer id="footer">
-        Inspired by
-        <a href="https://github.com/karpathy/jobs">karpathy/jobs</a>.
+        Inspired by <a href="https://github.com/karpathy/jobs?tab=readme-ov-file">Karphay/ai</a>
       </footer>
     </div>
 
@@ -612,7 +557,7 @@
     <script>
       // ── Color scales ────────────────────────────────────────────────────────
 
-      let colorMode = "outlook";
+      let colorMode = "exposure";
 
       function boostContrast(t) {
         const c = (t - 0.5) * 2;
@@ -649,10 +594,37 @@
         return EDU_LEVELS[code] || "\u2014";
       }
 
-      // Color for a normalized value (0=green, 1=red). Flip for "good=green" metrics.
+      function clamp01(v) {
+        return Math.max(0, Math.min(1, v));
+      }
+
+      function rgb(r, g, b, a) {
+        return `rgba(${Math.round(r)},${Math.round(g)},${Math.round(b)},${a})`;
+      }
+
+      function lerpColor(start, end, t, a) {
+        return rgb(
+          start[0] + (end[0] - start[0]) * t,
+          start[1] + (end[1] - start[1]) * t,
+          start[2] + (end[2] - start[2]) * t,
+          a,
+        );
+      }
+
+      function exposureColor(v, a) {
+        if (v == null) return `rgba(128,128,128,${a})`;
+        const t = clamp01(v / 10);
+        if (t < 0.5)
+          return lerpColor([37, 185, 110], [244, 176, 72], t / 0.5, a);
+        return lerpColor([244, 176, 72], [220, 53, 69], (t - 0.5) / 0.5, a);
+      }
       function outlookColor(v, a) {
         if (v == null) return `rgba(128,128,128,${a})`;
-        return v ? greenRedCSS(0.92, a) : greenRedCSS(0.18, a);
+        return lerpColor([122, 127, 138], [46, 204, 113], clamp01(v / 100), a);
+      }
+      function ofwColor(v, a) {
+        if (v == null) return `rgba(128,128,128,${a})`;
+        return lerpColor([248, 214, 173], [217, 119, 6], clamp01(v), a);
       }
       function payColor(v, a) {
         if (v == null) return `rgba(128,128,128,${a})`;
@@ -660,30 +632,28 @@
           1 -
           (Math.log(Math.max(6000, Math.min(100000, v))) - Math.log(6000)) /
             (Math.log(100000) - Math.log(6000));
-        return greenRedCSS(t, a);
+        return lerpColor([12, 30, 62], [65, 147, 255], clamp01(t), a);
       }
       function eduColor(idx, a) {
         if (idx < 0) return `rgba(128,128,128,${a})`;
         return greenRedCSS(1 - idx / 4, a);
       }
-      function exposureColor(v, a) {
-        if (v == null) return `rgba(128,128,128,${a})`;
-        return greenRedCSS(v / 10, a);
-      }
       function informalColor(v, a) {
         if (v == null) return `rgba(128,128,128,${a})`;
-        return greenRedCSS(Math.max(0, Math.min(1, v)), a);
+        return lerpColor([249, 201, 201], [220, 38, 38], clamp01(v), a);
       }
 
       function tileColorCSS(d, alpha) {
         if (colorMode === "exposure") return exposureColor(d.exposure, alpha);
-        if (colorMode === "outlook") return outlookColor(d.ofw_channel, alpha);
+        if (colorMode === "outlook") return outlookColor(d.outlook, alpha);
+        if (colorMode === "ofw") return ofwColor(d.ofw_share, alpha);
         if (colorMode === "pay") return payColor(d.pay, alpha);
         if (colorMode === "education") {
           return eduColor((d.education || 0) - 1, alpha);
         }
-        if (colorMode === "informal")
+        if (colorMode === "informal") {
           return informalColor(d.informal_share, alpha);
+        }
         return `rgba(128,128,128,${alpha})`;
       }
 
@@ -696,7 +666,13 @@
         }
         if (colorMode === "outlook") {
           return (
-            `OFW: ${r.ofw_channel ? "Yes" : "No"}` +
+            `Hiring intensity: ${r.outlook != null ? Math.round(r.outlook) + "/100" : "\u2014"}` +
+            (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + " jobs" : "")
+          );
+        }
+        if (colorMode === "ofw") {
+          return (
+            `OFW share: ${r.ofw_share != null ? Math.round(r.ofw_share * 100) + "%" : "\u2014"}` +
             (r.jobs ? " \u00b7 " + formatNumber(r.jobs) + " jobs" : "")
           );
         }
@@ -939,16 +915,28 @@
           if (v == null) return "";
           const color = exposureColor(v, 1);
           return (
-            `<span style="color:${color};font-weight:600;">Digital AI Exposure: ${v}/10</span>` +
+            `<span style="color:${color};font-weight:600;">AI Exposure: ${v}/10</span>` +
             `<div style="margin-top:3px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;">` +
             `<div style="height:100%;width:${v * 10}%;background:${color};border-radius:2px;"></div></div>`
           );
         } else if (colorMode === "outlook") {
-          const color = outlookColor(d.ofw_channel, 1);
+          const v = d.outlook;
+          if (v == null) return "";
+          const color = outlookColor(v, 1);
           return (
-            `<span style="color:${color};font-weight:600;">OFW deployment: ${d.ofw_channel ? "Yes" : "No"}</span>` +
+            `<span style="color:${color};font-weight:600;">Hiring intensity (0–100): ${Math.round(v)}</span>` +
             `<div style="margin-top:3px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;">` +
-            `<div style="height:100%;width:${d.ofw_channel ? 100 : 12}%;background:${color};border-radius:2px;"></div></div>`
+            `<div style="height:100%;width:${Math.min(100, v)}%;background:${color};border-radius:2px;"></div></div>`
+          );
+        } else if (colorMode === "ofw") {
+          const v = d.ofw_share;
+          if (v == null) return "";
+          const color = ofwColor(v, 1);
+          return (
+            `<span style="color:${color};font-weight:600;">OFW share of PSOC group: ${(v * 100).toFixed(1)}%</span>` +
+            `<div style="margin-top:3px;height:4px;background:rgba(255,255,255,0.08);border-radius:2px;">` +
+            `<div style="height:100%;width:${Math.min(100, v * 100)}%;background:${color};border-radius:2px;"></div></div>` +
+            `<div style="margin-top:6px;color:var(--fg2);font-size:11px;">Source: PSA Survey on Overseas Filipinos 2024</div>`
           );
         } else if (colorMode === "pay") {
           const v = d.pay;
@@ -982,9 +970,10 @@
         tt.querySelector(".tt-title").textContent = d.title;
         tt.querySelector(".tt-exposure").innerHTML = tooltipHighlight(d);
         tt.querySelector(".tt-stats").innerHTML = `
+    <span class="label">AI exposure</span><span class="value">${d.exposure != null ? d.exposure + "/10" : "\u2014"}</span>
     <span class="label">Avg monthly wage (\u20b1)</span><span class="value">${formatPay(d.pay)}</span>
-    <span class="label">Jobs (2024)</span><span class="value">${formatNumber(d.jobs)}</span>
-    <span class="label">OFW deployment</span><span class="value">${d.ofw_channel ? "Yes" : "No"}</span>
+    <span class="label">Hiring intensity (0–100)</span><span class="value">${d.outlook != null ? Math.round(d.outlook) : "\u2014"}</span>
+    <span class="label">OFW share</span><span class="value">${d.ofw_share != null ? (d.ofw_share * 100).toFixed(1) + "%" : "\u2014"}</span>
     <span class="label">Informal sector</span><span class="value">${d.informal_share != null ? (d.informal_share * 100).toFixed(1) + "%" : "\u2014"}</span>
     <span class="label">Education</span><span class="value">${educationLabel(d.education)}</span>`;
         tt.querySelector(".tt-rationale").textContent =
@@ -1019,12 +1008,12 @@
         { label: "Doctoral", match: [5] },
       ];
 
-      const OUTLOOK_TIERS = [
-        { label: "Declining (<0%)", min: -Infinity, max: -1 },
-        { label: "Slow (0\u20133%)", min: 0, max: 3 },
-        { label: "Average (4\u20137%)", min: 4, max: 7 },
-        { label: "Fast (8\u201314%)", min: 8, max: 14 },
-        { label: "Much faster (15%+)", min: 15, max: Infinity },
+      const HIRING_TIERS = [
+        { label: "Very low (0\u201320)", min: 0, max: 20 },
+        { label: "Low (21\u201340)", min: 21, max: 40 },
+        { label: "Medium (41\u201360)", min: 41, max: 60 },
+        { label: "High (61\u201380)", min: 61, max: 80 },
+        { label: "Very high (81\u2013100)", min: 81, max: 100 },
       ];
 
       // Weighted avg of metric across a set of group filters
@@ -1079,91 +1068,106 @@
         if (colorMode === "outlook") updateOutlookStats(totalJobs);
         else if (colorMode === "pay") updatePayStats(totalJobs);
         else if (colorMode === "education") updateEducationStats(totalJobs);
+        else if (colorMode === "ofw") updateOfwStats(totalJobs);
         else if (colorMode === "informal") updateInformalStats(totalJobs);
         else updateExposureStats(totalJobs);
       }
 
       function updateOutlookStats(totalJobs) {
-        let ofwJobs = 0;
+        let wS = 0,
+          wC = 0;
         for (const d of data) {
-          if (d.jobs && d.ofw_channel) ofwJobs += d.jobs;
+          if (d.outlook != null && d.jobs) {
+            wS += d.outlook * d.jobs;
+            wC += d.jobs;
+          }
         }
-        const share = totalJobs > 0 ? ofwJobs / totalJobs : 0;
-        document.getElementById("block2").innerHTML = `<h3>OFW-linked jobs</h3>
-    <div class="stat-big"><span style="color:${outlookColor(true, 1)}">${(share * 100).toFixed(0)}%</span></div>
-    <div class="stat-label">employment share</div>`;
+        const avg = wC > 0 ? wS / wC : 0;
+        document.getElementById("block2").innerHTML =
+          `<h3>Avg. hiring intensity</h3>
+    <div class="stat-big"><span style="color:${outlookColor(avg, 1)}">${avg.toFixed(0)}</span></div>
+    <div class="stat-label">0–100, based on PhilJobNet postings</div>`;
 
-        const localJobs = Math.max(0, totalJobs - ofwJobs);
-        const maxH = Math.max(ofwJobs, localJobs);
+        const buckets = [0, 20, 40, 60, 80, 100.1];
+        const histJobs = [0, 0, 0, 0, 0];
+        for (const d of data) {
+          if (d.outlook != null && d.jobs) {
+            const idx = buckets.findIndex(
+              (b, i) => d.outlook >= b && d.outlook < buckets[i + 1],
+            );
+            if (idx >= 0) histJobs[idx] += d.jobs;
+          }
+        }
+        const maxH = Math.max(...histJobs);
         document.getElementById("block3").innerHTML =
-          `<h3>Jobs by OFW channel</h3>
-    <div class="histogram">
-      <div class="bar" style="height:${Math.max(2, maxH > 0 ? (localJobs / maxH) * 100 : 0)}%;background:${outlookColor(false, 0.7)}"></div>
-      <div class="bar" style="height:${Math.max(2, maxH > 0 ? (ofwJobs / maxH) * 100 : 0)}%;background:${outlookColor(true, 0.7)}"></div>
-    </div>
-    <div class="hist-labels"><span>Domestic</span><span>OFW</span></div>`;
+          `<h3>Jobs by intensity</h3>
+    <div class="histogram">${histJobs.map((c, i) => `<div class="bar" style="height:${Math.max(2, maxH > 0 ? (c / maxH) * 100 : 0)}%;background:${outlookColor((i + 1) * 20, 0.7)}"></div>`).join("")}</div>
+    <div class="hist-labels"><span>Low</span><span>Mid</span><span>High</span></div>`;
 
-        const tiers = [
-          {
-            label: "Domestic-focused",
-            jobs: localJobs,
-            color: outlookColor(false, 1),
-          },
-          { label: "OFW channel", jobs: ofwJobs, color: outlookColor(true, 1) },
-        ];
+        const tiers = HIRING_TIERS.map((t) => {
+          let jobs = 0;
+          for (const d of data) {
+            if (
+              d.outlook != null &&
+              d.jobs &&
+              d.outlook >= t.min &&
+              d.outlook <= t.max
+            ) {
+              jobs += d.jobs;
+            }
+          }
+          return { ...t, jobs, color: outlookColor((t.min + t.max) / 2, 1) };
+        });
         document.getElementById("block4").innerHTML =
-          `<h3>OFW risk tiers</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
+          `<h3>Intensity tiers</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
 
-        const ofwByPay = PAY_BANDS.map((g) => {
-          let jobs = 0;
-          let ofw = 0;
-          for (const d of data) {
-            if (d.pay != null && d.jobs && d.pay >= g.min && d.pay < g.max) {
-              jobs += d.jobs;
-              if (d.ofw_channel) ofw += d.jobs;
-            }
-          }
-          return { label: g.label, pct: jobs > 0 ? (ofw / jobs) * 100 : 0 };
-        });
+        const byPay = weightedAvgByGroups(
+          PAY_BANDS,
+          (d, g) => d.pay != null && d.pay >= g.min && d.pay < g.max,
+          (d) => d.outlook,
+        );
         document.getElementById("block5").innerHTML =
-          `<h3>OFW share by pay</h3><div class="hbar-chart">${renderHbars(
-            ofwByPay.map((g) => ({
+          `<h3>Intensity by pay</h3><div class="hbar-chart">${renderHbars(
+            byPay.map((g) => ({
               label: g.label,
-              val: g.pct.toFixed(0) + "%",
-              pct: g.pct,
-              color: outlookColor(true, 0.8),
+              val: Math.round(g.avg),
+              pct: g.avg,
+              color: outlookColor(g.avg, 0.8),
             })),
           )}</div>`;
 
-        const ofwByEdu = EDU_GROUPS.map((g) => {
-          let jobs = 0;
-          let ofw = 0;
-          for (const d of data) {
-            if (d.jobs && g.match.includes(d.education)) {
-              jobs += d.jobs;
-              if (d.ofw_channel) ofw += d.jobs;
-            }
-          }
-          return { label: g.label, pct: jobs > 0 ? (ofw / jobs) * 100 : 0 };
-        });
+        const byEdu = weightedAvgByGroups(
+          EDU_GROUPS,
+          (d, g) => g.match.includes(d.education),
+          (d) => d.outlook,
+        );
         document.getElementById("block6").innerHTML =
-          `<h3>OFW share by education</h3><div class="hbar-chart">${renderHbars(
-            ofwByEdu.map((g) => ({
+          `<h3>Intensity by education</h3><div class="hbar-chart">${renderHbars(
+            byEdu.map((g) => ({
               label: g.label,
-              val: g.pct.toFixed(0) + "%",
-              pct: g.pct,
-              color: outlookColor(true, 0.8),
+              val: Math.round(g.avg),
+              pct: g.avg,
+              color: outlookColor(g.avg, 0.8),
             })),
           )}</div>`;
 
-        document.getElementById("block7").innerHTML = `<h3>OFW channel jobs</h3>
-    <div class="stat-big" style="color:${outlookColor(true, 1)}">${(ofwJobs / 1e6).toFixed(1)}M</div>
-    <div class="stat-label">higher external demand risk</div>`;
+        let highIntensity = 0;
+        for (const d of data) {
+          if (d.jobs && d.outlook >= 80) highIntensity += d.jobs;
+        }
+        let lowIntensity = 0;
+        for (const d of data) {
+          if (d.jobs && d.outlook <= 20) lowIntensity += d.jobs;
+        }
+        document.getElementById("block7").innerHTML =
+          `<h3>High-intensity jobs</h3>
+    <div class="stat-big" style="color:${outlookColor(90, 1)}">${(highIntensity / 1e6).toFixed(1)}M</div>
+    <div class="stat-label">80+ intensity</div>`;
 
         document.getElementById("block8").innerHTML =
-          `<h3>Domestic-focused jobs</h3>
-    <div class="stat-big" style="color:${outlookColor(false, 1)}">${(localJobs / 1e6).toFixed(1)}M</div>
-    <div class="stat-label">no major OFW channel</div>`;
+          `<h3>Low-intensity jobs</h3>
+    <div class="stat-big" style="color:${outlookColor(10, 1)}">${(lowIntensity / 1e6).toFixed(1)}M</div>
+    <div class="stat-label">20 or below</div>`;
       }
 
       function updatePayStats(totalJobs) {
@@ -1245,17 +1249,17 @@
             })),
           )}</div>`;
 
-        // Cross: pay by outlook tier
+        // Cross: pay by hiring intensity tier
         const byOl = weightedAvgByGroups(
-          OUTLOOK_TIERS,
+          HIRING_TIERS,
           (d, g) =>
             d.outlook != null && d.outlook >= g.min && d.outlook <= g.max,
           (d) => d.pay,
         );
         document.getElementById("block6").innerHTML =
-          `<h3>Pay by outlook</h3><div class="hbar-chart">${renderHbars(
+          `<h3>Pay by hiring intensity</h3><div class="hbar-chart">${renderHbars(
             byOl.map((g) => ({
-              label: g.label.replace(/ \(.*/, ""),
+              label: g.label,
               val: "\u20b1" + Math.round(g.avg / 1000) + "K",
               pct: Math.max(
                 0,
@@ -1338,18 +1342,18 @@
             })),
           )}</div>`;
 
-        // Cross: avg outlook by education
+        // Cross: avg hiring intensity by education
         const olByEdu = weightedAvgByGroups(
           EDU_GROUPS,
           (d, g) => g.match.includes(d.education),
           (d) => d.outlook,
         );
         document.getElementById("block6").innerHTML =
-          `<h3>Avg outlook by education</h3><div class="hbar-chart">${renderHbars(
+          `<h3>Avg hiring intensity by education</h3><div class="hbar-chart">${renderHbars(
             olByEdu.map((g) => ({
               label: g.label,
-              val: (g.avg > 0 ? "+" : "") + g.avg.toFixed(1) + "%",
-              pct: Math.max(0, Math.min(100, ((g.avg + 10) / 30) * 100)),
+              val: Math.round(g.avg),
+              pct: Math.max(0, Math.min(100, g.avg)),
               color: outlookColor(g.avg, 0.8),
             })),
           )}</div>`;
@@ -1363,6 +1367,103 @@
     <div class="stat-big">${(noDeg / 1e6).toFixed(1)}M</div>
     <div class="stat-label">jobs, no degree required</div>`;
         document.getElementById("block8").innerHTML = "";
+      }
+
+      function updateOfwStats(totalJobs) {
+        let wS = 0,
+          wC = 0;
+        for (const d of data) {
+          if (d.ofw_share != null && d.jobs) {
+            wS += d.ofw_share * d.jobs;
+            wC += d.jobs;
+          }
+        }
+        const avg = wC > 0 ? wS / wC : 0;
+        document.getElementById("block2").innerHTML = `<h3>Avg. OFW share</h3>
+    <div class="stat-big"><span style="color:${ofwColor(avg, 1)}">${(avg * 100).toFixed(1)}%</span></div>
+    <div class="stat-label">PSOC-group weighted</div>`;
+
+        const buckets = [0, 0.05, 0.1, 0.2, 0.35, 1.01];
+        const histJobs = [0, 0, 0, 0, 0];
+        for (const d of data) {
+          if (d.ofw_share != null && d.jobs) {
+            const idx = buckets.findIndex(
+              (b, i) => d.ofw_share >= b && d.ofw_share < buckets[i + 1],
+            );
+            if (idx >= 0) histJobs[idx] += d.jobs;
+          }
+        }
+        const maxH = Math.max(...histJobs);
+        document.getElementById("block3").innerHTML =
+          `<h3>Jobs by OFW share</h3>
+    <div class="histogram">${histJobs.map((c, i) => `<div class="bar" style="height:${Math.max(2, maxH > 0 ? (c / maxH) * 100 : 0)}%;background:${ofwColor((i + 1) / 5, 0.7)}"></div>`).join("")}</div>
+    <div class="hist-labels"><span>Low</span><span>Mid</span><span>High</span></div>`;
+
+        const tiers = [
+          { label: "Very low (<2%)", min: 0, max: 0.02 },
+          { label: "Low (2–6%)", min: 0.02, max: 0.06 },
+          { label: "Moderate (6–13%)", min: 0.06, max: 0.13 },
+          { label: "High (13–20%)", min: 0.13, max: 0.2 },
+          { label: "Very high (20%+)", min: 0.2, max: 1.01 },
+        ].map((t) => {
+          let jobs = 0;
+          for (const d of data) {
+            if (
+              d.jobs &&
+              d.ofw_share != null &&
+              d.ofw_share >= t.min &&
+              d.ofw_share < t.max
+            ) {
+              jobs += d.jobs;
+            }
+          }
+          return { ...t, jobs, color: ofwColor((t.min + t.max) / 2, 1) };
+        });
+        document.getElementById("block4").innerHTML =
+          `<h3>OFW share tiers</h3><div class="tier-bar">${renderTiers(tiers, totalJobs)}</div>`;
+
+        const byPay = weightedAvgByGroups(
+          PAY_BANDS,
+          (d, g) => d.pay != null && d.pay >= g.min && d.pay < g.max,
+          (d) => d.ofw_share * 100,
+        );
+        document.getElementById("block5").innerHTML =
+          `<h3>OFW share by pay</h3><div class="hbar-chart">${renderHbars(
+            byPay.map((g) => ({
+              label: g.label,
+              val: g.avg.toFixed(0) + "%",
+              pct: g.avg,
+              color: ofwColor(g.avg / 100, 0.8),
+            })),
+          )}</div>`;
+
+        const byEdu = weightedAvgByGroups(
+          EDU_GROUPS,
+          (d, g) => g.match.includes(d.education),
+          (d) => d.ofw_share * 100,
+        );
+        document.getElementById("block6").innerHTML =
+          `<h3>OFW share by education</h3><div class="hbar-chart">${renderHbars(
+            byEdu.map((g) => ({
+              label: g.label,
+              val: g.avg.toFixed(0) + "%",
+              pct: g.avg,
+              color: ofwColor(g.avg / 100, 0.8),
+            })),
+          )}</div>`;
+
+        let ofwJobs = 0;
+        for (const d of data) {
+          if (d.jobs && d.ofw_share != null) ofwJobs += d.jobs * d.ofw_share;
+        }
+        const domesticJobs = Math.max(0, totalJobs - ofwJobs);
+        document.getElementById("block7").innerHTML = `<h3>OFW-linked jobs</h3>
+    <div class="stat-big" style="color:${ofwColor(0.95, 1)}">${(ofwJobs / 1e6).toFixed(1)}M</div>
+    <div class="stat-label">weighted by OFW share</div>`;
+
+        document.getElementById("block8").innerHTML = `<h3>Domestic jobs</h3>
+    <div class="stat-big" style="color:${ofwColor(0.08, 1)}">${(domesticJobs / 1e6).toFixed(1)}M</div>
+    <div class="stat-label">not in the OFW channel</div>`;
       }
 
       function updateExposureStats(totalJobs) {
@@ -1580,10 +1681,11 @@
       // ── Legend gradient ────────────────────────────────────────────────────
 
       const LEGEND_CONFIG = {
-        exposure: { low: "Low", high: "High" },
-        outlook: { low: "Low risk", high: "High risk" },
+        exposure: { low: "Low exposure", high: "High exposure" },
+        outlook: { low: "Low demand", high: "High demand" },
+        ofw: { low: "Low share", high: "High share" },
         pay: { low: "\u20b16K", high: "\u20b1100K+" },
-        education: { low: "No degree", high: "Doctoral" },
+        education: { low: "Elementary", high: "Post-grad" },
         informal: { low: "Low informal", high: "High informal" },
       };
 
@@ -1592,12 +1694,15 @@
         const gctx = c.getContext("2d");
         for (let x = 0; x < 80; x++) {
           const t = x / 79;
-          if (
-            colorMode === "exposure" ||
-            colorMode === "outlook" ||
-            colorMode === "informal"
-          )
-            gctx.fillStyle = greenRedCSS(t, 1);
+          if (colorMode === "exposure")
+            gctx.fillStyle = exposureColor(t * 10, 1);
+          else if (colorMode === "outlook")
+            gctx.fillStyle = outlookColor(t * 100, 1);
+          else if (colorMode === "ofw") gctx.fillStyle = ofwColor(t, 1);
+          else if (colorMode === "informal")
+            gctx.fillStyle = informalColor(t, 1);
+          else if (colorMode === "pay")
+            gctx.fillStyle = payColor(6000 + t * (100000 - 6000), 1);
           else gctx.fillStyle = greenRedCSS(1 - t, 1);
           gctx.fillRect(x, 0, 1, 8);
         }
