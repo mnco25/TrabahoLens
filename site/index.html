@@ -327,14 +327,22 @@
 
       .gradient-legend {
         display: flex;
-        align-items: center;
+        align-items: flex-end;
         gap: 6px;
         font-size: 11px;
         color: var(--fg2);
+        height: 16px;
+      }
+
+      .gradient-legend span {
+        line-height: 1;
+        display: flex;
+        align-items: flex-end;
       }
 
       .gradient-legend canvas {
         border-radius: 2px;
+        display: block;
       }
 
       canvas#canvas {
@@ -543,7 +551,10 @@
       <canvas id="canvas"></canvas>
 
       <footer id="footer">
-        Inspired by <a href="https://github.com/karpathy/jobs?tab=readme-ov-file">Karphay/ai</a>
+        Inspired by
+        <a href="https://github.com/karpathy/jobs?tab=readme-ov-file"
+          >Karphay/ai</a
+        >
       </footer>
     </div>
 
