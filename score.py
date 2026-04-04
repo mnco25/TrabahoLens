@@ -142,6 +142,7 @@ def main():
             f"education_label: {occ['education_label']}\n"
             f"ofw_share: {float(occ['ofw_share']):.2f}\n"
             f"informal_share: {float(occ['informal_share']):.2f}\n"
+            f"O*NET Description: {occ['description']}\n"
             f"description: {occ['description']}"
         )
 

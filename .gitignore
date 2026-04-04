@@ -5,21 +5,47 @@ build/
 dist/
 wheels/
 *.egg-info
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
 
 # Virtual environments
 .venv
+.envrc
 
 # Secrets
 .env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+*.jks
+*.crt
+*.cer
+id_rsa
+id_ed25519
 
 # Parsed markdown (reproducible via process.py)
 pages/
 html/
 data/psa_raw/
+data/onet/
+data/onet_occupations.json
+data/ph_occupations_v2.json
+data/ph_occupations_v2_with_stats.json
 
 # Embeddings (unused in final visualization)
 embed.py
 embeddings.json
 
+# Local logs and runtime output
+*.log
+logs/
+
 # macOS
 .DS_Store
+
+# Editor folders
+.vscode/

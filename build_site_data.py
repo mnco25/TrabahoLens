@@ -29,6 +29,7 @@ def main():
     for row in rows:
         title = row["title"]
         score = scores.get(title, {})
+        soc_code = row.get("soc_code", "")
         data.append({
             "title": title,
             "category": row["category"],
@@ -43,6 +44,7 @@ def main():
             "informal_share": float(row["informal_share"]),
             "psoc_major": int(row["psoc_major"]),
             "psoc_label": row["psoc_label"],
+            "source": "ph_native" if soc_code.startswith("PH-") else "onet",
         })
 
     os.makedirs("site", exist_ok=True)

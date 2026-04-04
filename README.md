@@ -4,7 +4,7 @@ A research tool for visually exploring Philippine labor market structure and AI 
 
 ## What's here
 
-TrabahoLens adapts the architecture and visualization style of [karpathy/jobs](https://github.com/karpathy/jobs) to a Philippine context. The treemap uses a hand-curated occupation list mapped to PSOC major groups, with employment, wage, informality, OFW-share, and hiring-intensity estimates aligned to Philippine data sources. Each rectangle's **area** is proportional to total employment and **color** shows the selected metric.
+TrabahoLens adapts the architecture and visualization style of [karpathy/jobs](https://github.com/karpathy/jobs) to a Philippine context. The treemap now uses an O*NET-based occupation list mapped to PSOC major groups, with employment, wage, informality, OFW-share, and hiring-intensity estimates aligned to Philippine data sources. Each rectangle's **area** is proportional to total employment and **color** shows the selected metric.
 
 ## Layers
 
@@ -55,10 +55,12 @@ Output schema is strict JSON:
 ## Data pipeline
 
 1. **Fetch PSA metadata/data** (`fetch_psa.py`) — Queries the PSA OpenSTAT PXWeb API for LFS occupation employment and OWS wage tables, saving raw JSON to `data/psa_raw/` and printing variable codes for inspection. This script is local-only and is not part of the build.
-2. **Curate occupation master** (`occupations_ph.json`) — Hand-curated Philippine occupation list with the exact schema used by the pipeline: PSOC major group, employment/wage estimates, education, informal share, OFW share, hiring intensity, and description.
-3. **Tabulate** (`make_csv_ph.py`) — Converts `occupations_ph.json` into `occupations_ph.csv` with the exact downstream column set.
-4. **Score** (`score.py`) — Sends each occupation profile to Anthropic Claude Haiku 4.5 using the Philippine AI-exposure rubric and writes `scores.json`.
-5. **Build site data** (`build_site_data.py`) — Merges `occupations_ph.csv` and `scores.json` into `site/data.json` for the visualization.
+2. **Fetch O*NET data** (`fetch_onet.py`) — Downloads the O*NET 30.2 text database, extracts occupation and Job Zone files, and writes `data/onet_occupations.json`.
+3. **Filter Philippines-relevant occupations** (`filter_ph_occupations.py`) — Selects the O*NET occupations that map cleanly to Philippine labor-market categories, then appends PH-specific records.
+4. **Assign stats** (`assign_ph_stats.py`) — Adds wage, employment, informal-share, and OFW-share estimates to the filtered occupation list.
+5. **Tabulate** (`make_csv_ph.py`) — Converts `data/ph_occupations_v2_with_stats.json` into `occupations_ph.csv` with the downstream column set.
+6. **Score** (`score.py`) — Sends each occupation profile to Anthropic Claude Haiku 4.5 using the Philippine AI-exposure rubric and writes `scores.json`.
+7. **Build site data** (`build_site_data.py`) — Merges `occupations_ph.csv` and `scores.json` into `site/data.json` for the visualization.
 6. **Website** (`site/index.html`) — Interactive treemap visualization with Philippine-calibrated layers and tooltips.
 
 ## Key files
@@ -66,8 +68,14 @@ Output schema is strict JSON:
 | File | Description |
 |------|-------------|
 | `occupations_ph.json` | Master list of Philippine occupations in the canonical schema |
+| `data/onet_occupations.json` | Parsed O*NET occupation data and Job Zone education codes |
+| `data/ph_occupations_v2.json` | Philippines-relevant occupation list filtered from O*NET plus PH-specific records |
+| `data/ph_occupations_v2_with_stats.json` | Filtered occupations with wage, employment, informal, and OFW stats |
 | `occupations_ph.csv` | Tabulated CSV used by scoring and site build |
 | `scores.json` | AI exposure scores (0-10) with rationales |
+| `fetch_onet.py` | O*NET text database downloader and parser |
+| `filter_ph_occupations.py` | O*NET-to-Philippines occupation filter |
+| `assign_ph_stats.py` | Philippine wage/employment/statistics assignment stage |
 | `fetch_psa.py` | PSA OpenSTAT PXWeb fetcher for LFS and OWS tables |
 | `score.py` | Anthropic scorer for Philippine AI exposure |
 | `build_site_data.py` | Merges CSV + scores into `site/data.json` |
@@ -86,6 +94,12 @@ Requires an Anthropic API key in `.env`:
 ```bash
 ANTHROPIC_API_KEY=your_key_here
 ```
+
+## Data Sources
+
+**O*NET 30.2 Database** (US Department of Labor)  
+Used for occupation descriptions and education (Job Zone) data for non-PH-specific occupations. O*NET covers 923 occupations under Creative Commons Attribution 4.0. Philippine wage and employment data are applied separately from PSA sources.  
+URL: https://www.onetcenter.org/database.html
 
 ## Usage
 
