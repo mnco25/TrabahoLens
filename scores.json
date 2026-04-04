@@ -1,0 +1,310 @@
+[
+  {
+    "slug": "general-and-operations-managers",
+    "title": "General and operations managers",
+    "exposure": 5,
+    "rationale": "Higher education correlates with cognitive tasks; Higher wages indicate formal, digital roles",
+    "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "slug": "hotel-and-restaurant-managers",
+    "title": "Hotel and restaurant managers",
+    "exposure": 5,
+    "rationale": "OFW channel increases external demand risk; Higher education correlates with cognitive tasks",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "construction-project-managers",
+    "title": "Construction project managers",
+    "exposure": 6,
+    "rationale": "OFW channel increases external demand risk; Higher education correlates with cognitive tasks",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "registered-nurses",
+    "title": "Registered nurses",
+    "exposure": 6,
+    "rationale": "OFW channel increases external demand risk; Higher education correlates with cognitive tasks",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "public-school-teachers",
+    "title": "Public school teachers",
+    "exposure": 5,
+    "rationale": "Higher education correlates with cognitive tasks",
+    "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "slug": "accountants",
+    "title": "Accountants",
+    "exposure": 8,
+    "rationale": "OFW channel increases external demand risk; Work is highly digital/remote; Higher education correlates with cognitive tasks",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "software-developers",
+    "title": "Software developers",
+    "exposure": 7,
+    "rationale": "Work is highly digital/remote; Higher education correlates with cognitive tasks; Higher wages indicate formal, digital roles",
+    "primary_risk_vector": "task_automation"
+  },
+  {
+    "slug": "civil-engineers",
+    "title": "Civil engineers",
+    "exposure": 6,
+    "rationale": "OFW channel increases external demand risk; Higher education correlates with cognitive tasks",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "physicians-and-medical-doctors",
+    "title": "Physicians and medical doctors",
+    "exposure": 6,
+    "rationale": "OFW channel increases external demand risk; Higher education correlates with cognitive tasks; Higher wages indicate formal, digital roles",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "medical-laboratory-technicians",
+    "title": "Medical laboratory technicians",
+    "exposure": 6,
+    "rationale": "OFW channel increases external demand risk; Higher education correlates with cognitive tasks",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "electrical-engineering-technicians",
+    "title": "Electrical engineering technicians",
+    "exposure": 5,
+    "rationale": "OFW channel increases external demand risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "computer-support-specialists",
+    "title": "Computer support specialists",
+    "exposure": 4,
+    "rationale": "Mixed signals; moderate exposure expected",
+    "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "slug": "surveying-and-mapping-technicians",
+    "title": "Surveying and mapping technicians",
+    "exposure": 4,
+    "rationale": "Mixed signals; moderate exposure expected",
+    "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "slug": "bpo-and-call-center-agents",
+    "title": "BPO and call center agents",
+    "exposure": 6,
+    "rationale": "Work is highly digital/remote",
+    "primary_risk_vector": "task_automation"
+  },
+  {
+    "slug": "administrative-clerks",
+    "title": "Administrative clerks",
+    "exposure": 4,
+    "rationale": "Mixed signals; moderate exposure expected",
+    "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "slug": "bookkeeping-clerks",
+    "title": "Bookkeeping clerks",
+    "exposure": 4,
+    "rationale": "Mixed signals; moderate exposure expected",
+    "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "slug": "payroll-clerks",
+    "title": "Payroll clerks",
+    "exposure": 4,
+    "rationale": "Mixed signals; moderate exposure expected",
+    "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "slug": "data-encoding-clerks",
+    "title": "Data encoding clerks",
+    "exposure": 6,
+    "rationale": "Work is highly digital/remote",
+    "primary_risk_vector": "task_automation"
+  },
+  {
+    "slug": "retail-salespersons",
+    "title": "Retail salespersons",
+    "exposure": 3,
+    "rationale": "Mixed signals; moderate exposure expected",
+    "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "slug": "food-service-workers",
+    "title": "Food service workers",
+    "exposure": 4,
+    "rationale": "OFW channel increases external demand risk; High informal share reduces automation risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "security-guards",
+    "title": "Security guards",
+    "exposure": 5,
+    "rationale": "OFW channel increases external demand risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "kasambahay-domestic-workers",
+    "title": "Kasambahay (domestic workers)",
+    "exposure": 3,
+    "rationale": "OFW channel increases external demand risk; High informal share reduces automation risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "barangay-health-workers",
+    "title": "Barangay health workers",
+    "exposure": 2,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "minimal"
+  },
+  {
+    "slug": "hairdressers-and-beauty-service-workers",
+    "title": "Hairdressers and beauty service workers",
+    "exposure": 3,
+    "rationale": "OFW channel increases external demand risk; High informal share reduces automation risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "rice-and-corn-farmers",
+    "title": "Rice and corn farmers",
+    "exposure": 2,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "minimal"
+  },
+  {
+    "slug": "vegetable-and-fruit-growers",
+    "title": "Vegetable and fruit growers",
+    "exposure": 2,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "minimal"
+  },
+  {
+    "slug": "livestock-and-poultry-raisers",
+    "title": "Livestock and poultry raisers",
+    "exposure": 2,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "minimal"
+  },
+  {
+    "slug": "fishers-and-aquaculture-workers",
+    "title": "Fishers and aquaculture workers",
+    "exposure": 2,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "minimal"
+  },
+  {
+    "slug": "carpenters",
+    "title": "Carpenters",
+    "exposure": 4,
+    "rationale": "OFW channel increases external demand risk; High informal share reduces automation risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "masons-and-tile-setters",
+    "title": "Masons and tile setters",
+    "exposure": 4,
+    "rationale": "OFW channel increases external demand risk; High informal share reduces automation risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "electricians",
+    "title": "Electricians",
+    "exposure": 4,
+    "rationale": "OFW channel increases external demand risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "automotive-mechanics",
+    "title": "Automotive mechanics",
+    "exposure": 4,
+    "rationale": "OFW channel increases external demand risk; High informal share reduces automation risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "welders-and-flame-cutters",
+    "title": "Welders and flame cutters",
+    "exposure": 4,
+    "rationale": "OFW channel increases external demand risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "jeepney-drivers",
+    "title": "Jeepney drivers",
+    "exposure": 3,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "platform_disruption"
+  },
+  {
+    "slug": "tricycle-drivers",
+    "title": "Tricycle drivers",
+    "exposure": 2,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "platform_disruption"
+  },
+  {
+    "slug": "delivery-riders",
+    "title": "Delivery riders",
+    "exposure": 3,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "platform_disruption"
+  },
+  {
+    "slug": "bus-and-truck-drivers",
+    "title": "Bus and truck drivers",
+    "exposure": 3,
+    "rationale": "Mixed signals; moderate exposure expected",
+    "primary_risk_vector": "platform_disruption"
+  },
+  {
+    "slug": "factory-machine-operators",
+    "title": "Factory machine operators",
+    "exposure": 3,
+    "rationale": "Mixed signals; moderate exposure expected",
+    "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "slug": "construction-laborers",
+    "title": "Construction laborers",
+    "exposure": 3,
+    "rationale": "OFW channel increases external demand risk; High informal share reduces automation risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "janitors-and-cleaners",
+    "title": "Janitors and cleaners",
+    "exposure": 3,
+    "rationale": "OFW channel increases external demand risk; High informal share reduces automation risk",
+    "primary_risk_vector": "ofw_channel"
+  },
+  {
+    "slug": "street-vendors-and-market-sellers",
+    "title": "Street vendors and market sellers",
+    "exposure": 2,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "minimal"
+  },
+  {
+    "slug": "garbage-collectors-and-sanitation-workers",
+    "title": "Garbage collectors and sanitation workers",
+    "exposure": 2,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "slug": "porters-and-freight-handlers",
+    "title": "Porters and freight handlers",
+    "exposure": 2,
+    "rationale": "High informal share reduces automation risk",
+    "primary_risk_vector": "minimal"
+  },
+  {
+    "slug": "seafarers-and-merchant-marine-ratings",
+    "title": "Seafarers and merchant marine ratings",
+    "exposure": 5,
+    "rationale": "OFW channel increases external demand risk; Higher wages indicate formal, digital roles",
+    "primary_risk_vector": "ofw_channel"
+  }
+]
