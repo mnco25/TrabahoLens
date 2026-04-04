@@ -3,6 +3,11 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="TrabahoLens is a minimalist Philippine job market treemap visualizer."
+    />
+    <meta name="theme-color" content="#0a0a0f" />
     <title>TrabahoLens — Philippine Job Market Visualizer</title>
     <style>
       *,
@@ -18,6 +23,12 @@
         --bg2: #12121a;
         --fg: #e0e0e8;
         --fg2: #888894;
+        --accent: #f2c98f;
+      }
+
+      ::selection {
+        background: rgba(242, 201, 143, 0.22);
+        color: var(--fg);
       }
 
       body {
@@ -25,13 +36,15 @@
         color: var(--fg);
         font-family:
           -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
+        min-height: 100vh;
+        line-height: 1.5;
       }
 
       #wrapper {
         max-width: 1400px;
         width: 100%;
         margin: 0 auto;
-        padding-bottom: 250px;
+        padding-bottom: 28px;
       }
 
       #header {
@@ -61,6 +74,18 @@
       .intro h1 a:hover {
         text-decoration: underline;
       }
+      .intro h1 a,
+      .intro summary,
+      .intro a,
+      #footer a {
+        transition: color 0.15s ease;
+      }
+      .intro h1 a:hover,
+      .intro summary:hover,
+      .intro a:hover,
+      #footer a:hover {
+        color: var(--accent);
+      }
       .intro p {
         font-size: 15px;
         line-height: 1.6;
@@ -85,9 +110,6 @@
         cursor: pointer;
         user-select: none;
       }
-      .intro summary:hover {
-        color: var(--fg);
-      }
       .intro .prompt-box {
         margin-top: 8px;
         background: rgba(0, 0, 0, 0.3);
@@ -110,6 +132,18 @@
         gap: 20px 28px;
         align-items: flex-start;
         margin-bottom: 12px;
+      }
+
+      #footer {
+        padding: 18px 28px 0;
+        font-size: 12px;
+        color: var(--fg2);
+        text-align: center;
+        letter-spacing: 0.01em;
+      }
+      #footer a {
+        color: inherit;
+        text-decoration: none;
       }
 
       .stat-section {
@@ -295,7 +329,7 @@
         font-weight: 600;
         font-size: 14px;
         margin-bottom: 6px;
-        color: #fff;
+        color: var(--accent);
       }
       #tooltip .tt-exposure {
         font-size: 12px;
@@ -322,11 +356,122 @@
         border-top: 1px solid rgba(255, 255, 255, 0.06);
         padding-top: 8px;
       }
+
+      @media (max-width: 900px) {
+        #header {
+          padding: 16px 18px 12px;
+        }
+
+        .intro h1 {
+          font-size: 22px;
+          gap: 10px;
+        }
+
+        .intro p {
+          font-size: 14px;
+        }
+
+        .controls-row {
+          align-items: stretch;
+          gap: 12px;
+        }
+
+        .color-toggle {
+          flex-wrap: wrap;
+        }
+
+        .color-toggle button {
+          flex: 1 1 140px;
+        }
+
+        .gradient-legend {
+          width: 100%;
+          justify-content: space-between;
+        }
+
+        .stats-row {
+          gap: 16px 20px;
+        }
+
+        #footer {
+          padding: 14px 18px 0;
+        }
+      }
+
+      @media (max-width: 640px) {
+        #wrapper {
+          padding-bottom: 20px;
+        }
+
+        #header {
+          padding: 14px 14px 10px;
+        }
+
+        .intro {
+          margin-bottom: 14px;
+        }
+
+        .intro h1 {
+          font-size: 18px;
+          line-height: 1.2;
+        }
+
+        .intro h1 a {
+          font-size: 12px;
+        }
+
+        .intro p {
+          font-size: 13px;
+          line-height: 1.55;
+        }
+
+        .controls-row {
+          gap: 10px;
+          margin-bottom: 12px;
+        }
+
+        .color-toggle button {
+          padding: 7px 10px;
+          font-size: 11px;
+          flex: 1 1 calc(50% - 4px);
+        }
+
+        .gradient-legend {
+          flex-wrap: wrap;
+          gap: 6px 8px;
+          font-size: 10px;
+        }
+
+        .stats-row {
+          gap: 14px 16px;
+          margin-bottom: 8px;
+        }
+
+        .stat-big {
+          font-size: 26px;
+        }
+
+        .tier-row,
+        .hbar-row {
+          font-size: 11px;
+        }
+
+        .tier-name,
+        .hbar-label,
+        .hbar-val {
+          font-size: 10px;
+        }
+
+        #footer {
+          padding: 12px 14px 0;
+          font-size: 11px;
+        }
+      }
     </style>
   </head>
   <body>
     <div id="wrapper">
-      <div id="header">
+      <header id="header">
         <div class="intro">
           <h1>
             TrabahoLens — Philippine Job Market Visualizer
@@ -447,9 +592,14 @@
           <div class="stat-section" id="block7"></div>
           <div class="stat-section" id="block8"></div>
         </div>
-      </div>
+      </header>
 
       <canvas id="canvas"></canvas>
+
+      <footer id="footer">
+        Inspired by
+        <a href="https://github.com/karpathy/jobs">karpathy/jobs</a>.
+      </footer>
     </div>
 
     <div id="tooltip">
@@ -734,7 +884,7 @@
           ctx.fillStyle = tileColorCSS(r, isHovered ? 0.8 : 0.5);
           ctx.fillRect(rx, ry, rw, rh);
           if (isHovered) {
-            ctx.strokeStyle = "#fff";
+            ctx.strokeStyle = "#f2c98f";
             ctx.lineWidth = 2;
             ctx.strokeRect(rx, ry, rw, rh);
           }
@@ -748,7 +898,7 @@
               Math.max(9, Math.min(rw / 10, rh / 3)),
             );
             ctx.font = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
-            ctx.fillStyle = isHovered ? "#fff" : "rgba(255,255,255,0.85)";
+            ctx.fillStyle = isHovered ? "#f2c98f" : "rgba(255,255,255,0.82)";
             ctx.textBaseline = "top";
             ctx.fillText(r.title, rx + 5, ry + 4);
             if (rh > 34 && rw > 60) {
