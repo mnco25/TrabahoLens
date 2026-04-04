@@ -580,7 +580,7 @@
     "education_code": 1,
     "education_label": "Elementary",
     "informal_share": 0.69,
-    "ofw_share": 0.44,
+    "ofw_share": 0.15,
     "hiring_intensity": 31,
     "description": "Construction laborers perform material handling, site preparation, and support tasks across building projects. Employment is often project-based, seasonal, and partly informal. AI can optimize scheduling and procurement, but direct substitution of manual labor is limited in the near term."
   },
@@ -647,15 +647,15 @@
   {
     "id": "ELM006",
     "title": "Seafarers and merchant marine ratings",
-    "psoc_major": 9,
-    "psoc_label": "Elementary Occupations",
+    "psoc_major": 8,
+    "psoc_label": "Plant and Machine Operators, and Assemblers",
     "category": "Maritime",
     "employment_estimate": 410000,
     "avg_monthly_wage_php": 70000,
     "education_code": 3,
     "education_label": "Some College",
     "informal_share": 0.12,
-    "ofw_share": 0.44,
+    "ofw_share": 0.15,
     "hiring_intensity": 34,
     "description": "Filipino seafarers are a globally significant workforce in international shipping and maritime services. Earnings are relatively high and heavily linked to overseas deployment channels. Automation risk can materialize abroad first through vessel digitization, reducing demand before domestic adjustment occurs."
   }
