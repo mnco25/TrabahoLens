@@ -1,131 +1,5 @@
 [
   {
-    "title": "General and operations managers",
-    "exposure": 6,
-    "rationale": "Philippine managers face significant AI disruption through strategic planning and reporting tools, with generative AI potentially automating routine administrative tasks. However, local business culture's emphasis on personal relationships and in-person management will slow complete replacement.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Hotel and restaurant managers",
-    "exposure": 5,
-    "rationale": "Philippine hospitality managers face moderate AI disruption, with algorithmic tools enhancing forecasting and customer management while preserving core human interaction. Tourism's relationship-driven nature and local service complexity create resilience against full automation.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Construction project managers",
-    "exposure": 5,
-    "rationale": "Philippine construction project management involves significant site-specific coordination that resists full automation. AI will augment planning and estimation tools, but cannot easily replace complex local negotiation and physical site management.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Registered nurses",
-    "exposure": 4,
-    "rationale": "Philippine nurses have complex tasks requiring physical touch and emotional intelligence that AI cannot fully replicate. However, documentation, patient intake, and diagnostic support are increasingly AI-assisted, creating partial automation risk.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Public school teachers",
-    "exposure": 4,
-    "rationale": "Philippine public school teachers require significant human interaction and emotional intelligence that current AI cannot fully replicate. Infrastructure limitations and the strong cultural emphasis on personal mentorship in Philippine education will slow comprehensive automation.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Accountants",
-    "exposure": 7,
-    "rationale": "Philippine accountants face high AI risk due to digitized workflows and standardized reporting processes. Large formal enterprises will rapidly adopt AI for financial analysis and document processing, reducing human labor requirements.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Software developers",
-    "exposure": 7,
-    "rationale": "Philippine software developers are already integrating AI coding tools like GitHub Copilot, which dramatically reduces manual coding time. The occupation's high digital nature and low informal share accelerate AI-driven transformation, particularly in offshore and outsourcing contexts.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Civil engineers",
-    "exposure": 5,
-    "rationale": "Philippine civil engineering has significant digital design components that AI can augment, but physical infrastructure deployment requires local expertise and site-specific adaptation. Infrastructure complexity and regulatory oversight in the Philippines create meaningful human judgment barriers to full automation.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Physicians and medical doctors",
-    "exposure": 5,
-    "rationale": "Philippine medical professionals face moderate AI disruption, with diagnostic support tools emerging but human judgment remaining critical. Limited OFW channel risk and low informal employment suggest direct technological adaptation.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Medical laboratory technicians",
-    "exposure": 6,
-    "rationale": "Philippine medical labs increasingly use digital pathology and AI-assisted diagnostic screening, which can reduce manual interpretation tasks. Low OFW share and formal sector presence accelerate technological adoption compared to other healthcare roles.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Electrical engineering technicians",
-    "exposure": 5,
-    "rationale": "Philippine electrical engineering technicians face moderate AI disruption, with diagnostic tools and documentation likely to be automated, but physical installation and complex troubleshooting remain challenging. Low OFW share and infrastructure complexity reduce immediate replacement risk.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Computer support specialists",
-    "exposure": 6,
-    "rationale": "Philippine IT support has significant routine task components that AI can handle through automated ticketing, diagnostic chatbots, and knowledge base resolution. Remote support workflows are particularly vulnerable to AI replacement.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Surveying and mapping technicians",
-    "exposure": 5,
-    "rationale": "Philippine infrastructure projects require significant physical site work that resists full automation. Geospatial AI tools will enhance precision and error detection, but cannot fully replace field technicians in complex terrain and informal settlement contexts.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "BPO and call center agents",
-    "exposure": 8,
-    "rationale": "Philippine BPO sector faces direct AI threat from large language models and voice AI that can handle routine customer interactions. Generative AI can already draft responses and handle basic customer service scripts with high accuracy.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Administrative clerks",
-    "exposure": 7,
-    "rationale": "Philippine administrative clerks face high AI substitution risk due to routine document processing tasks that large language models and RPA can efficiently handle. Legacy government systems provide some buffer, but digital transformation is accelerating.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Bookkeeping clerks",
-    "exposure": 7,
-    "rationale": "Philippine bookkeeping is highly templated and software-dependent, making it vulnerable to AI automation. Cloud accounting platforms with AI capabilities are already reducing manual reconciliation and transaction recording tasks.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Payroll clerks",
-    "exposure": 7,
-    "rationale": "Philippine payroll clerks face high AI automation risk due to rule-based work and emerging AI-powered HR platforms. Formal sector prevalence and digital infrastructure make this occupation particularly vulnerable to algorithmic replacement.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Data encoding clerks",
-    "exposure": 8,
-    "rationale": "Philippine data encoding jobs are highly vulnerable to AI and machine learning technologies that can rapidly process structured documents. Low OFW share means disruption will primarily occur domestically through robotic process automation and intelligent document processing.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Retail salespersons",
-    "exposure": 4,
-    "rationale": "Philippine retail sales have high informal sector presence which slows AI adoption, and many sales interactions remain relationship-driven. However, inventory management and point-of-sale technologies are rapidly becoming AI-enabled.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Food service workers",
-    "exposure": 3,
-    "rationale": "High informal employment in Philippine food service sector creates significant barriers to rapid technological replacement. Physical food preparation and customer interaction remain challenging for AI systems, especially in diverse local food environments.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Security guards",
-    "exposure": 4,
-    "rationale": "Philippine security guard roles require significant physical presence and local contextual understanding that AI cannot easily replicate. Infrastructure limitations and cultural preference for human security personnel create substantial barriers to full automation.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
     "title": "Kasambahay (domestic workers)",
     "exposure": 2,
     "rationale": "High informal employment and deeply personal nature of domestic work create significant barriers to AI/robotic replacement. Philippine households prefer human relationships and affordable manual labor over expensive technological solutions.",
@@ -138,45 +12,9 @@
     "primary_risk_vector": "augmentation_only"
   },
   {
-    "title": "Hairdressers and beauty service workers",
-    "exposure": 2,
-    "rationale": "Philippine beauty services remain highly personalized and manual, with significant informal sector presence that slows technology adoption. Physical touch and aesthetic judgment are difficult to automate in local context.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Rice and corn farmers",
-    "exposure": 3,
-    "rationale": "Philippine rice and corn farmers operate in highly informal, small-scale agricultural settings with limited technological infrastructure. Mechanization barriers and fragmented landholdings significantly slow potential AI/automation disruption.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Vegetable and fruit growers",
-    "exposure": 3,
-    "rationale": "Philippine vegetable and fruit growers operate predominantly in small, informal agricultural settings with low technological penetration. Infrastructure limitations and fragmented landholdings significantly slow precision agriculture robot deployment.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Livestock and poultry raisers",
-    "exposure": 3,
-    "rationale": "High informal agricultural sector in the Philippines creates significant barriers to rapid technological replacement. Small-scale backyard farming and traditional livestock raising methods resist complete automation, especially in rural areas with limited infrastructure.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Fishers and aquaculture workers",
-    "exposure": 3,
-    "rationale": "Philippine small-scale fishing remains highly informal with low technological penetration. Physical labor and localized maritime skills resist direct AI replacement, while infrastructure limitations constrain advanced automation technologies.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
     "title": "Carpenters",
     "exposure": 3,
     "rationale": "Philippine construction remains highly manual and informal, with site-specific adaptation challenging for AI. Rural and small-scale projects rely heavily on skilled human labor with limited technology infrastructure.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Masons and tile setters",
-    "exposure": 3,
-    "rationale": "High informal sector participation and physical on-site work complexity limit direct AI substitution. Construction sites in the Philippines have significant manual adaptation requirements that current robotic systems cannot easily replicate.",
     "primary_risk_vector": "augmentation_only"
   },
   {
@@ -186,82 +24,10 @@
     "primary_risk_vector": "augmentation_only"
   },
   {
-    "title": "Automotive mechanics",
-    "exposure": 4,
-    "rationale": "Philippine automotive mechanics have a significant informal sector buffer and rely heavily on manual skills that resist full automation. Diagnostic AI tools will assist mechanics, but cannot fully replace hands-on repair work in diverse vehicle conditions.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Welders and flame cutters",
-    "exposure": 5,
-    "rationale": "Philippine welding remains partially protected by informal sector practices and project-based manual work, but robotic welding technologies are increasingly penetrating large manufacturing and shipbuilding sectors. Overseas Filipino worker channels also expose this occupation to global automation trends.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Jeepney drivers",
-    "exposure": 5,
-    "rationale": "Jeepney drivers face significant platform disruption through route optimization apps and potential electrification/modernization programs. High informal sector presence provides some buffer against rapid technological displacement.",
-    "primary_risk_vector": "platform_disruption"
-  },
-  {
-    "title": "Tricycle drivers",
-    "exposure": 3,
-    "rationale": "Tricycle driving remains a highly informal, localized service with significant physical navigation requirements that resist immediate AI replacement. Low technology penetration and hyperlocal route knowledge create substantial human-skill barriers to automation.",
-    "primary_risk_vector": "platform_disruption"
-  },
-  {
     "title": "Delivery riders",
     "exposure": 7,
     "rationale": "Philippine delivery riders face high algorithmic management risk through platform apps that can optimize routing and worker allocation. The large informal sector provides some buffer, but platform-driven automation is already transforming the occupation's core tasks.",
     "primary_risk_vector": "platform_disruption"
-  },
-  {
-    "title": "Bus and truck drivers",
-    "exposure": 5,
-    "rationale": "Philippine road infrastructure complexity and high informal transport sector will slow autonomous vehicle deployment. However, route optimization algorithms and fleet management AI will significantly transform driver roles and productivity.",
-    "primary_risk_vector": "platform_disruption"
-  },
-  {
-    "title": "Factory machine operators",
-    "exposure": 7,
-    "rationale": "Philippine manufacturing increasingly uses automated systems, with large electronics and garment factories already implementing robotic process automation. Machine operators face high replacement risk from computer vision, predictive maintenance, and real-time quality control systems.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Construction laborers",
-    "exposure": 3,
-    "rationale": "High informal employment and physical labor complexity create significant barriers to AI substitution. Philippine construction sites have limited technological infrastructure and rely heavily on manual workforce adaptability.",
-    "primary_risk_vector": "augmentation_only"
-  },
-  {
-    "title": "Janitors and cleaners",
-    "exposure": 3,
-    "rationale": "High informal employment and physically distributed work environments limit immediate AI/robotic replacement in the Philippines. Cleaning robotics remain expensive and challenging to deploy in diverse Philippine settings.",
-    "primary_risk_vector": "minimal"
-  },
-  {
-    "title": "Street vendors and market sellers",
-    "exposure": 2,
-    "rationale": "Philippine street vendors operate in highly informal settings with complex social interactions that resist direct technological substitution. Low digital infrastructure and cash-based transactions create significant barriers to rapid AI displacement.",
-    "primary_risk_vector": "minimal"
-  },
-  {
-    "title": "Garbage collectors and sanitation workers",
-    "exposure": 3,
-    "rationale": "Philippine garbage collection remains highly labor-intensive with significant informal sector involvement. Infrastructure limitations and complex urban environments like Metro Manila's dense neighborhoods make full robotic replacement challenging.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Porters and freight handlers",
-    "exposure": 5,
-    "rationale": "Philippine logistics remain heavily manual and fragmented, with high informal sector participation that slows technological adoption. E-commerce growth creates demand, but small warehouses and transport terminals limit rapid robotic replacement.",
-    "primary_risk_vector": "task_automation"
-  },
-  {
-    "title": "Seafarers and merchant marine ratings",
-    "exposure": 6,
-    "rationale": "Maritime automation through autonomous ships and advanced navigation systems poses significant disruption risk, especially for Filipino seafarers heavily dependent on international shipping routes. The high OFW share (0.44) means technological displacement can occur rapidly in destination maritime markets.",
-    "primary_risk_vector": "ofw_channel"
   },
   {
     "title": "Administrative Services Managers",

@@ -930,6 +930,20 @@
         return n == null ? "\u2014" : "\u20b1" + n.toLocaleString();
       }
 
+      function compactDecimal(n) {
+        const decimals = n >= 100 ? 0 : n >= 10 ? 1 : 2;
+        return n
+          .toFixed(decimals)
+          .replace(/\.0+$/, "")
+          .replace(/(\.\d*[1-9])0+$/, "$1");
+      }
+
+      function formatLargePhpAmount(n) {
+        if (n == null || !Number.isFinite(n)) return "\u2014";
+        if (n >= 1e12) return `\u20b1${compactDecimal(n / 1e12)}T`;
+        return `\u20b1${compactDecimal(n / 1e9)}B`;
+      }
+
       function tooltipHighlight(d) {
         if (colorMode === "exposure") {
           const v = d.exposure;
@@ -1301,7 +1315,7 @@
           if (d.pay != null && d.jobs) totalWages += d.pay * d.jobs;
         }
         document.getElementById("block7").innerHTML = `<h3>Total wages</h3>
-    <div class="stat-big">\u20b1${(totalWages / 1e12).toFixed(1)}T</div>
+    <div class="stat-big">${formatLargePhpAmount(totalWages)}</div>
     <div class="stat-label">monthly payroll</div>`;
         document.getElementById("block8").innerHTML = "";
       }
@@ -1574,7 +1588,7 @@
             wagesExposed += d.jobs * d.pay;
         }
         document.getElementById("block7").innerHTML = `<h3>Wages exposed</h3>
-    <div class="stat-big" style="color:${exposureColor(8, 1)}">\u20b1${(wagesExposed / 1e12).toFixed(1)}T</div>
+    <div class="stat-big" style="color:${exposureColor(8, 1)}">${formatLargePhpAmount(wagesExposed)}</div>
     <div class="stat-label">monthly, in jobs scoring 7+</div>`;
         document.getElementById("block8").innerHTML = "";
       }
