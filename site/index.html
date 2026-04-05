@@ -578,7 +578,9 @@
     <script>
       // ── Color scales ────────────────────────────────────────────────────────
 
-      let colorMode = "exposure";
+      // Load saved layer preference from localStorage, default to "exposure"
+      let colorMode =
+        localStorage.getItem("trabaholens_colorMode") || "exposure";
 
       function boostContrast(t) {
         const c = (t - 0.5) * 2;
@@ -1752,6 +1754,8 @@
         const btn = e.target.closest("button");
         if (!btn || !btn.dataset.mode) return;
         colorMode = btn.dataset.mode;
+        // Save the selected layer to localStorage
+        localStorage.setItem("trabaholens_colorMode", colorMode);
         document
           .querySelectorAll("#colorToggle button")
           .forEach((b) => b.classList.remove("active"));
@@ -1769,6 +1773,16 @@
         .then((r) => r.json())
         .then((d) => {
           data = d;
+          // Restore the saved layer button's active state
+          const activeBtn = document.querySelector(
+            `#colorToggle button[data-mode="${colorMode}"]`,
+          );
+          if (activeBtn) {
+            document
+              .querySelectorAll("#colorToggle button")
+              .forEach((b) => b.classList.remove("active"));
+            activeBtn.classList.add("active");
+          }
           updateStats();
           drawGradientLegend();
           resize();
