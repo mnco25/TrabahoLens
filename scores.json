@@ -880,5 +880,161 @@
     "exposure": 2,
     "rationale": "Street vending in the Philippines relies heavily on personal relationships, physical product handling, and cash transactions that resist direct AI automation. The high informal economy share further protects these workers from rapid technological displacement.",
     "primary_risk_vector": "demand_reduction"
+  },
+  {
+    "title": "Biofuels/Biodiesel Technology and Product Development Managers",
+    "exposure": 4,
+    "rationale": "While AI and machine learning can assist in research and development processes for biofuels, the role requires complex strategic decision-making, technical expertise, and creative problem-solving that currently limits full automation. Managers in this field need to interpret scientific findings, make strategic judgments about commercial potential, and navigate technological innovation in ways that AI currently cannot fully replicate.",
+    "primary_risk_vector": "analytical_support"
+  },
+  {
+    "title": "Acute Care Nurses",
+    "exposure": 3,
+    "rationale": "Acute care nursing requires complex human judgment, emotional intelligence, and hands-on physical care that AI currently cannot fully replicate. While diagnostic support and routine monitoring could be augmented by AI technologies, the critical decision-making and nuanced patient interaction remain highly dependent on human expertise.",
+    "primary_risk_vector": "diagnostic_support"
+  },
+  {
+    "title": "Art, Drama, and Music Teachers, Postsecondary",
+    "exposure": 3,
+    "rationale": "While AI can generate art, music, and performance content, postsecondary arts educators provide critical human elements like interpretive guidance, mentorship, and nuanced creative critique that are difficult to fully automate. The deeply interpersonal and contextual nature of arts education limits complete AI replacement.",
+    "primary_risk_vector": "content_generation"
+  },
+  {
+    "title": "Clinical Nurse Specialists",
+    "exposure": 3,
+    "rationale": "Clinical Nurse Specialists require complex interpersonal skills, nuanced clinical judgment, and empathetic patient interaction that AI currently cannot fully replicate. While some documentation and protocol tasks could be automated, the core diagnostic reasoning, emotional support, and hands-on patient care remain highly dependent on human expertise.",
+    "primary_risk_vector": "administrative_tasks"
+  },
+  {
+    "title": "Kindergarten Teachers, Except Special Education",
+    "exposure": 3,
+    "rationale": "Kindergarten teaching requires high emotional intelligence, interpersonal interaction, and adaptive instruction that AI currently struggles to replicate. While AI might assist with lesson planning or administrative tasks, the core teaching process involves nuanced human engagement with young children that remains difficult to automate.",
+    "primary_risk_vector": "administrative_support"
+  },
+  {
+    "title": "Law Teachers, Postsecondary",
+    "exposure": 4,
+    "rationale": "Law teachers require complex reasoning, critical analysis, and nuanced interpretation of legal principles that are challenging for AI to fully replicate. While AI can assist with research and provide background information, the interpretative and pedagogical aspects of legal education demand significant human expertise and contextual understanding.",
+    "primary_risk_vector": "research_augmentation"
+  },
+  {
+    "title": "Nurse Anesthetists",
+    "exposure": 4,
+    "rationale": "Nurse Anesthetists require complex clinical judgment, patient interaction, and real-time physiological monitoring that AI currently cannot fully replicate. While some routine monitoring and documentation tasks could be automated, the critical decision-making around patient safety during surgical procedures demands nuanced human expertise.",
+    "primary_risk_vector": "task_augmentation"
+  },
+  {
+    "title": "Nurse Midwives",
+    "exposure": 4,
+    "rationale": "Nurse midwives require complex human interaction, emotional intelligence, and nuanced clinical judgment that AI currently cannot fully replicate. While some diagnostic and documentation tasks could be automated, the core patient care and birthing support elements remain highly dependent on human skills and empathy.",
+    "primary_risk_vector": "administrative_support"
+  },
+  {
+    "title": "Nursing Instructors and Teachers, Postsecondary",
+    "exposure": 4,
+    "rationale": "Nursing instructors require complex interpersonal skills, nuanced clinical knowledge, and adaptive teaching methods that are challenging for AI to fully replicate. While AI could assist with curriculum design and theoretical instruction, the hands-on clinical demonstration and personalized student mentorship remain highly dependent on human expertise.",
+    "primary_risk_vector": "knowledge_augmentation"
+  },
+  {
+    "title": "Physics Teachers, Postsecondary",
+    "exposure": 4,
+    "rationale": "Physics professors have complex teaching and research responsibilities that require deep subject matter expertise, critical thinking, and nuanced explanation of abstract concepts. While some lecture content and administrative tasks could be automated, the core intellectual work of interpreting scientific principles and guiding student learning remains highly dependent on human interaction and judgment.",
+    "primary_risk_vector": "administrative_support"
+  },
+  {
+    "title": "Preschool Teachers, Except Special Education",
+    "exposure": 3,
+    "rationale": "Preschool teaching requires significant human interaction, emotional intelligence, and adaptive interpersonal skills that are difficult for AI to replicate. While AI might assist with curriculum planning or administrative tasks, the core teaching function involving child development, emotional support, and individualized learning remains highly dependent on human judgment and empathy.",
+    "primary_risk_vector": "administrative_support"
+  },
+  {
+    "title": "Psychology Teachers, Postsecondary",
+    "exposure": 4,
+    "rationale": "Psychology teachers at the postsecondary level have moderate AI exposure due to the complex interpersonal and analytical skills required in teaching and research. While AI can assist with research data analysis and curriculum development, the nuanced interpretation of psychological theories and student mentorship remain deeply human-centric tasks.",
+    "primary_risk_vector": "research_support"
+  },
+  {
+    "title": "Recreation and Fitness Studies Teachers, Postsecondary",
+    "exposure": 3,
+    "rationale": "Recreation and fitness studies teachers have moderate AI exposure due to the inherently interactive and personalized nature of physical education instruction. While AI could potentially assist with curriculum design and theoretical content delivery, the hands-on, kinesthetic learning and interpersonal coaching aspects of the role remain difficult to fully automate.",
+    "primary_risk_vector": "content_generation"
+  },
+  {
+    "title": "First-Line Supervisors of Entertainment and Recreation Workers, Except Gambling Services",
+    "exposure": 4,
+    "rationale": "While some supervisory tasks could be partially automated through scheduling and performance tracking software, the role requires significant human interaction, interpersonal management, and context-specific decision-making in entertainment and recreation settings. Direct supervision and nuanced coordination of workers remain challenging for current AI technologies.",
+    "primary_risk_vector": "administrative_support"
+  },
+  {
+    "title": "Massage Therapists",
+    "exposure": 3,
+    "rationale": "Massage therapy requires significant human touch, interpersonal interaction, and nuanced physical assessment that AI and robotics currently struggle to replicate. While some diagnostic aspects might be augmented by AI, the core therapeutic intervention remains deeply dependent on human tactile skills and emotional intelligence.",
+    "primary_risk_vector": "diagnostic_support"
+  },
+  {
+    "title": "Physical Therapist Aides",
+    "exposure": 3,
+    "rationale": "Physical therapist aides require significant human interaction, empathy, and hands-on patient care that cannot be easily automated. While some administrative tasks might be streamlined by AI, the core responsibilities of patient preparation, direct physical support, and interpersonal communication remain challenging for AI systems to fully replicate.",
+    "primary_risk_vector": "administrative_support"
+  },
+  {
+    "title": "Cooks, All Other",
+    "exposure": 6,
+    "rationale": "Cooking involves complex manual tasks and creativity, but AI and robotics are rapidly advancing in kitchen automation. Repetitive cooking tasks like chopping, temperature monitoring, and recipe execution are increasingly susceptible to technological replacement.",
+    "primary_risk_vector": "task_automation"
+  },
+  {
+    "title": "Cooks, Fast Food",
+    "exposure": 7,
+    "rationale": "Fast food cooking involves repetitive, standardized tasks that are highly susceptible to automation through robotic kitchen systems and AI-driven food preparation technologies. The limited menu and predictable cooking processes make this occupation particularly vulnerable to technological replacement.",
+    "primary_risk_vector": "task_automation"
+  },
+  {
+    "title": "Grounds Maintenance Workers, All Other",
+    "exposure": 3,
+    "rationale": "Grounds maintenance workers perform physical tasks that require spatial awareness, adaptability to varied terrain, and manual dexterity which are currently challenging for AI and robotic systems. While some routine landscaping tasks could be automated, complex maintenance work involving nuanced judgment and physical manipulation remains difficult to fully replace.",
+    "primary_risk_vector": "partial_task_automation"
+  },
+  {
+    "title": "Log Graders and Scalers",
+    "exposure": 6,
+    "rationale": "Log grading and scaling involves visual inspection and measurement tasks that are increasingly susceptible to AI and computer vision technologies. Advanced image recognition and automated measurement systems can potentially replace significant portions of manual log assessment and valuation processes.",
+    "primary_risk_vector": "task_automation"
+  },
+  {
+    "title": "Logging Workers, All Other",
+    "exposure": 7,
+    "rationale": "Logging workers are at high risk of AI and automation due to emerging technologies like autonomous logging machinery, drone-based forest mapping, and AI-driven precision cutting techniques. Advanced sensors and machine learning can increasingly replace manual tasks in forest resource extraction and management.",
+    "primary_risk_vector": "task_automation"
+  },
+  {
+    "title": "Electricians",
+    "exposure": 6,
+    "rationale": "Electricians face moderate AI and automation risk due to complex spatial reasoning and physical manipulation tasks required in electrical installation and repair. While some routine inspection and diagnostic tasks can be automated, the need for adaptable problem-solving and precise manual skills in varied physical environments limits complete replacement.",
+    "primary_risk_vector": "task_automation"
+  },
+  {
+    "title": "First-Line Supervisors of Construction Trades and Extraction Workers",
+    "exposure": 4,
+    "rationale": "Construction supervision requires complex spatial reasoning, real-time problem solving, and adaptive decision-making in dynamic physical environments that are challenging for current AI systems to replicate. While some planning and documentation tasks could be automated, the hands-on coordination and situational judgment needed in construction sites limits comprehensive AI replacement.",
+    "primary_risk_vector": "documentation_and_planning"
+  },
+  {
+    "title": "First-Line Supervisors of Mechanics, Installers, and Repairers",
+    "exposure": 6,
+    "rationale": "First-line supervisors are at moderate risk of AI automation due to the potential for AI-driven workforce management systems and predictive maintenance technologies. While the role requires human judgment in coordinating workers and customer interactions, routine supervisory tasks can be increasingly automated.",
+    "primary_risk_vector": "management_coordination"
+  },
+  {
+    "title": "Ambulance Drivers and Attendants, Except Emergency Medical Technicians",
+    "exposure": 3,
+    "rationale": "Ambulance drivers and attendants require significant human judgment, physical assistance, and interpersonal skills that are difficult to automate. While some routing and navigation aspects could be automated, the critical patient care and physical handling components necessitate human presence.",
+    "primary_risk_vector": "partial_task_automation"
+  },
+  {
+    "title": "Food Cooking Machine Operators and Tenders",
+    "exposure": 7,
+    "rationale": "Food cooking machine operators are highly susceptible to AI and robotic automation due to the repetitive, standardized nature of their tasks. Advanced food processing technologies and robotic cooking systems can increasingly replicate precise temperature control, timing, and ingredient handling with greater consistency and efficiency.",
+    "primary_risk_vector": "task_automation"
   }
 ]
