@@ -4,7 +4,7 @@ A research tool for visually exploring Philippine labor market structure and AI 
 
 ## What's here
 
-TrabahoLens adapts the architecture and visualization style of [karpathy/jobs](https://github.com/karpathy/jobs) to a Philippine context. The treemap now uses an O*NET-based occupation list mapped to PSOC major groups, with employment, wage, informality, OFW-share, and hiring-intensity estimates aligned to Philippine data sources. Each rectangle's **area** is proportional to total employment and **color** shows the selected metric.
+TrabahoLens adapts the architecture and visualization style of [karpathy.ai/jobs](https://karpathy.ai/jobs/) to a Philippine context. The treemap now uses an O*NET-based occupation list mapped to PSOC major groups, with employment, wage, informality, OFW-share, and hiring-intensity estimates aligned to Philippine data sources. Each rectangle's **area** is proportional to total employment and **color** shows the selected metric.
 
 ## Layers
 
@@ -122,4 +122,4 @@ cd site && python3 -m http.server 8000
 
 ## Credits
 
-This project is directly inspired by [karpathy/jobs](https://github.com/karpathy/jobs), adapted for Philippine labor-market structure and data sources from PSA, OWS, POEA, IBPAP, PhilJobNet, and TESDA.
+This project is directly inspired by [karpathy.ai/jobs](https://karpathy.ai/jobs/), adapted for Philippine labor-market structure and data sources from PSA, OWS, POEA, IBPAP, PhilJobNet, and TESDA.
