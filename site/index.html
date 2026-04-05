@@ -38,6 +38,7 @@
           -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, sans-serif;
         min-height: 100vh;
         line-height: 1.5;
+        -webkit-text-size-adjust: 100%;
         scrollbar-width: thin;
         scrollbar-color: rgba(140, 140, 150, 0.4) transparent;
       }
@@ -160,6 +161,10 @@
         gap: 20px 28px;
         align-items: flex-start;
         margin-bottom: 12px;
+      }
+
+      .stat-section {
+        min-width: 0;
       }
 
       #footer {
@@ -323,7 +328,7 @@
       }
 
       .color-toggle button {
-        padding: 6px 14px;
+        padding: 8px 14px;
         font-size: 12px;
         font-weight: 500;
         border: 1px solid rgba(255, 255, 255, 0.1);
@@ -367,6 +372,7 @@
       canvas#canvas {
         display: block;
         cursor: default;
+        touch-action: manipulation;
       }
 
       #tooltip {
@@ -379,10 +385,22 @@
         font-size: 13px;
         line-height: 1.5;
         max-width: 340px;
+        max-height: min(44vh, 360px);
+        overflow: auto;
         opacity: 0;
         transition: opacity 0.12s;
         z-index: 20;
         box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      }
+
+      #tooltip.compact {
+        left: 12px !important;
+        right: 12px;
+        top: auto !important;
+        bottom: 12px;
+        width: auto;
+        max-width: none;
+        max-height: min(46vh, 420px);
       }
 
       #tooltip.visible {
@@ -472,20 +490,77 @@
       }
 
       @media (max-width: 640px) {
+        #wrapper {
+          padding-bottom: 96px;
+        }
+
         #header {
-          padding: 14px;
+          padding: 12px 12px 10px;
         }
 
         .intro h1 {
-          font-size: 19px;
+          font-size: clamp(18px, 5vw, 21px);
+          line-height: 1.12;
         }
 
         .intro p {
           font-size: 13px;
         }
 
+        .intro p:nth-of-type(n + 3) {
+          display: none;
+        }
+
+        .controls-row {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .color-toggle {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 6px;
+        }
+
+        .color-toggle button {
+          width: 100%;
+          min-height: 42px;
+          padding: 10px 12px;
+          font-size: 11px;
+          border-radius: 8px;
+        }
+
+        .gradient-legend {
+          gap: 8px;
+          height: auto;
+          font-size: 10px;
+        }
+
+        .stats-row {
+          display: grid;
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+          gap: 10px;
+        }
+
+        .stat-section {
+          background: rgba(255, 255, 255, 0.03);
+          border: 1px solid rgba(255, 255, 255, 0.06);
+          border-radius: 12px;
+          padding: 12px;
+          overflow: hidden;
+        }
+
+        .stat-big {
+          font-size: 26px;
+        }
+
+        .hbar-label {
+          width: 64px;
+        }
+
         #footer {
-          padding: 12px 14px 0;
+          padding: 12px 12px 0;
         }
       }
     </style>
@@ -610,6 +685,13 @@
 
       function educationLabel(code) {
         return EDU_LEVELS[code] || "\u2014";
+      }
+
+      function isCompactLayout() {
+        return (
+          window.matchMedia("(max-width: 820px)").matches ||
+          window.matchMedia("(pointer: coarse)").matches
+        );
       }
 
       function clamp01(v) {
@@ -815,17 +897,37 @@
       let data = [];
       let rects = [];
       let hovered = null;
+      let pinnedTooltip = null;
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
       let dpr = window.devicePixelRatio || 1;
-      const MARGIN = 12,
-        GAP = 1.5;
+      let MARGIN = 12,
+        GAP = 1.5,
+        compactLayout = isCompactLayout();
+
+      function fitCanvasText(text, maxWidth, font) {
+        ctx.font = font;
+        if (ctx.measureText(text).width <= maxWidth) return text;
+        let end = text.length;
+        while (
+          end > 1 &&
+          ctx.measureText(text.slice(0, end) + "…").width > maxWidth
+        ) {
+          end--;
+        }
+        return text.slice(0, end).trimEnd() + "…";
+      }
 
       function layout() {
         const wrapper = document.getElementById("wrapper");
         const headerH = document.getElementById("header").offsetHeight;
         const w = wrapper.clientWidth;
-        const h = Math.round((w * 3) / 4);
+        compactLayout = isCompactLayout();
+        MARGIN = compactLayout ? 8 : 12;
+        GAP = compactLayout ? 1 : 1.5;
+        const h = compactLayout
+          ? Math.max(Math.round(w * 1.18), 480)
+          : Math.round((w * 3) / 4);
         canvas.width = w * dpr;
         canvas.height = h * dpr;
         canvas.style.width = w + "px";
@@ -882,21 +984,30 @@
             ctx.lineWidth = 2;
             ctx.strokeRect(rx, ry, rw, rh);
           }
-          if (rw > 50 && rh > 18) {
+          if (
+            rw > (compactLayout ? 42 : 50) &&
+            rh > (compactLayout ? 20 : 18)
+          ) {
             ctx.save();
             ctx.beginPath();
             ctx.rect(rx + 4, ry + 2, rw - 8, rh - 4);
             ctx.clip();
             const fontSize = Math.min(
-              13,
-              Math.max(9, Math.min(rw / 10, rh / 3)),
+              compactLayout ? 14 : 13,
+              Math.max(compactLayout ? 9.5 : 9, Math.min(rw / 10, rh / 3)),
             );
-            ctx.font = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
+            const titleFont = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
+            ctx.font = titleFont;
             ctx.fillStyle = isHovered ? "#f2c98f" : "rgba(255,255,255,0.82)";
             ctx.textBaseline = "top";
-            ctx.fillText(r.title, rx + 5, ry + 4);
-            if (rh > 34 && rw > 60) {
-              ctx.font = `400 ${Math.max(8, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
+            const title = fitCanvasText(r.title, rw - 10, titleFont);
+            ctx.fillText(title, rx + 5, ry + 4);
+            if (
+              rh > (compactLayout ? 30 : 34) &&
+              rw > (compactLayout ? 52 : 60)
+            ) {
+              const subFont = `400 ${Math.max(8, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
+              ctx.font = subFont;
               ctx.fillStyle = "rgba(255,255,255,0.5)";
               ctx.fillText(tileSubInfo(r), rx + 5, ry + 4 + fontSize + 2);
             }
@@ -999,6 +1110,7 @@
 
       function showTooltip(d, mx, my) {
         const tt = document.getElementById("tooltip");
+        tt.classList.toggle("compact", compactLayout);
         tt.querySelector(".tt-title").textContent = d.title;
         tt.querySelector(".tt-exposure").innerHTML = tooltipHighlight(d);
         tt.querySelector(".tt-stats").innerHTML = `
@@ -1010,16 +1122,22 @@
     <span class="label">Education</span><span class="value">${educationLabel(d.education)}</span>`;
         tt.querySelector(".tt-rationale").textContent =
           colorMode === "exposure" ? d.exposure_rationale || "" : "";
-        let tx = mx + 16,
-          ty = my - 16;
-        if (tx + 340 > window.innerWidth) tx = mx - 356;
-        if (ty < 10) ty = my + 16;
-        if (ty + 200 > window.innerHeight) ty = my - 200;
-        tt.style.left = tx + "px";
-        tt.style.top = ty + "px";
+        if (compactLayout) {
+          tt.style.left = "";
+          tt.style.top = "";
+        } else {
+          let tx = mx + 16,
+            ty = my - 16;
+          if (tx + 340 > window.innerWidth) tx = mx - 356;
+          if (ty < 10) ty = my + 16;
+          if (ty + 200 > window.innerHeight) ty = my - 200;
+          tt.style.left = tx + "px";
+          tt.style.top = ty + "px";
+        }
         tt.classList.add("visible");
       }
       function hideTooltip() {
+        pinnedTooltip = null;
         document.getElementById("tooltip").classList.remove("visible");
       }
 
@@ -1682,6 +1800,7 @@
       // ── Events ─────────────────────────────────────────────────────────────
 
       canvas.addEventListener("mousemove", (e) => {
+        if (compactLayout) return;
         const hit = hitTest(e.clientX, e.clientY);
         if (hit !== hovered) {
           hovered = hit;
@@ -1697,16 +1816,36 @@
       });
       canvas.addEventListener("click", (e) => {
         const hit = hitTest(e.clientX, e.clientY);
+        if (compactLayout) {
+          if (!hit) {
+            hideTooltip();
+            hovered = null;
+            draw();
+            return;
+          }
+          if (pinnedTooltip === hit && hit.url) {
+            window.open(hit.url, "_blank");
+            return;
+          }
+          pinnedTooltip = hit;
+          showTooltip(hit, e.clientX, e.clientY);
+          hovered = hit;
+          draw();
+          return;
+        }
         if (hit && hit.url) window.open(hit.url, "_blank");
       });
       canvas.addEventListener("mouseleave", () => {
+        if (compactLayout) return;
         hovered = null;
         hideTooltip();
         draw();
       });
       function resize() {
         dpr = window.devicePixelRatio || 1;
+        compactLayout = isCompactLayout();
         layout();
+        hideTooltip();
         draw();
       }
 
@@ -1761,6 +1900,9 @@
         // Re-layout since stats height may have changed
         requestAnimationFrame(resize);
       });
+
+      window.addEventListener("resize", resize);
+      window.addEventListener("orientationchange", resize);
 
       // ── Load ───────────────────────────────────────────────────────────────
 
