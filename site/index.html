@@ -327,6 +327,35 @@
         gap: 4px;
       }
 
+      .industry-filter {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        min-width: 230px;
+      }
+
+      .industry-filter select {
+        appearance: none;
+        background: rgba(255, 255, 255, 0.04);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 6px;
+        color: var(--fg);
+        font-size: 12px;
+        font-weight: 500;
+        padding: 9px 10px;
+        min-height: 36px;
+      }
+
+      .industry-filter select:focus-visible {
+        outline: 2px solid rgba(242, 201, 143, 0.65);
+        outline-offset: 1px;
+      }
+
+      .industry-filter .filter-note {
+        font-size: 11px;
+        color: var(--fg2);
+      }
+
       .color-toggle button {
         padding: 8px 14px;
         font-size: 12px;
@@ -444,6 +473,122 @@
         padding-top: 8px;
       }
 
+      .risk-overlay {
+        position: fixed;
+        inset: 0;
+        background: rgba(3, 3, 8, 0.6);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.15s ease;
+        z-index: 24;
+      }
+
+      .risk-overlay.visible {
+        opacity: 1;
+        pointer-events: auto;
+      }
+
+      .risk-panel {
+        position: fixed;
+        top: 0;
+        right: 0;
+        height: 100vh;
+        width: min(420px, 92vw);
+        background: var(--bg2);
+        border-left: 1px solid rgba(255, 255, 255, 0.12);
+        box-shadow: -16px 0 36px rgba(0, 0, 0, 0.5);
+        transform: translateX(100%);
+        transition: transform 0.2s ease;
+        z-index: 25;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .risk-panel.visible {
+        transform: translateX(0);
+      }
+
+      .risk-head {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 14px 16px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .risk-title {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--accent);
+        line-height: 1.35;
+      }
+
+      .risk-meta {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--fg2);
+        display: flex;
+        gap: 10px;
+        flex-wrap: wrap;
+      }
+
+      .risk-close {
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        background: transparent;
+        color: var(--fg2);
+        border-radius: 6px;
+        font-size: 12px;
+        min-width: 34px;
+        height: 34px;
+        cursor: pointer;
+      }
+
+      .risk-close:hover {
+        color: var(--fg);
+        border-color: rgba(255, 255, 255, 0.28);
+      }
+
+      .risk-body {
+        padding: 14px 16px 18px;
+        overflow: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+
+      .risk-card {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 10px 12px;
+      }
+
+      .risk-card h4 {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--fg2);
+        margin-bottom: 6px;
+      }
+
+      .risk-card p {
+        font-size: 13px;
+        color: var(--fg);
+        line-height: 1.45;
+      }
+
+      .risk-card ul {
+        list-style: disc;
+        margin-left: 16px;
+      }
+
+      .risk-card li {
+        font-size: 13px;
+        color: var(--fg);
+        line-height: 1.45;
+        margin-bottom: 4px;
+      }
+
       @media (max-width: 900px) {
         #wrapper {
           padding-bottom: 140px;
@@ -465,6 +610,10 @@
         .controls-row {
           align-items: stretch;
           gap: 12px;
+        }
+
+        .industry-filter {
+          min-width: 200px;
         }
 
         .color-toggle {
@@ -515,6 +664,34 @@
           display: grid;
           grid-template-columns: 1fr;
           gap: 10px;
+        }
+
+        .industry-filter {
+          min-width: 0;
+        }
+
+        .industry-filter select {
+          width: 100%;
+          min-height: 42px;
+          border-radius: 8px;
+        }
+
+        .risk-panel {
+          top: auto;
+          right: 0;
+          left: 0;
+          bottom: 0;
+          width: 100%;
+          height: min(72vh, 560px);
+          border-left: 0;
+          border-top: 1px solid rgba(255, 255, 255, 0.12);
+          border-top-left-radius: 12px;
+          border-top-right-radius: 12px;
+          transform: translateY(100%);
+        }
+
+        .risk-panel.visible {
+          transform: translateY(0);
         }
 
         .color-toggle {
@@ -609,6 +786,18 @@
               <button data-mode="informal">Informal %</button>
             </div>
           </div>
+          <div class="stat-section industry-filter">
+            <h3>Filter by Industry</h3>
+            <select
+              id="industryFilter"
+              aria-label="Filter occupations by industry"
+            >
+              <option value="all">All Industries</option>
+            </select>
+            <div class="filter-note" id="industryFilterNote">
+              Showing all occupations
+            </div>
+          </div>
           <div class="gradient-legend">
             <span id="legendLow">Low exposure</span>
             <canvas id="gradientLegend" width="80" height="8"></canvas>
@@ -646,12 +835,145 @@
       <div class="tt-rationale"></div>
     </div>
 
+    <div class="risk-overlay" id="riskOverlay"></div>
+    <aside class="risk-panel" id="riskPanel" aria-hidden="true">
+      <div class="risk-head">
+        <div>
+          <div class="risk-title" id="riskTitle">Risk Vector Explainer</div>
+          <div class="risk-meta" id="riskMeta"></div>
+        </div>
+        <button
+          class="risk-close"
+          id="riskClose"
+          aria-label="Close risk explainer"
+        >
+          ×
+        </button>
+      </div>
+      <div class="risk-body">
+        <div class="risk-card">
+          <h4>What this means</h4>
+          <p id="riskMeaning"></p>
+        </div>
+        <div class="risk-card">
+          <h4>What might change</h4>
+          <ul id="riskChanges"></ul>
+        </div>
+        <div class="risk-card">
+          <h4>What remains human</h4>
+          <ul id="riskHuman"></ul>
+        </div>
+        <div class="risk-card">
+          <h4>Occupation context</h4>
+          <p id="riskOccupationContext"></p>
+        </div>
+      </div>
+    </aside>
+
     <script>
       // ── Color scales ────────────────────────────────────────────────────────
 
       // Load saved layer preference from localStorage, default to "exposure"
       let colorMode =
         localStorage.getItem("trabaholens_colorMode") || "exposure";
+      let industryFilter =
+        localStorage.getItem("trabaholens_industryFilter") || "all";
+
+      const RISK_VECTOR_LABELS = {
+        code_generation: "Code Generation",
+        writing_automation: "Writing Automation",
+        knowledge_work_routinization: "Knowledge Work Routinization",
+        analysis_automation: "Analysis Automation",
+        generative_ai: "Generative AI",
+        minimal: "Minimal Direct LLM Exposure",
+      };
+
+      const RISK_VECTOR_INFO = {
+        code_generation: {
+          meaning:
+            "LLMs can draft, test, and refactor code quickly, so routine software implementation work becomes faster and more standardized.",
+          changes: [
+            "Junior developers spend less time writing boilerplate and more time validating output.",
+            "Code review, testing, and security checks become a larger share of daily work.",
+            "Entry-level task pricing may tighten as productivity per developer increases.",
+          ],
+          human: [
+            "System architecture decisions and tradeoff judgment.",
+            "Problem framing, stakeholder alignment, and delivery prioritization.",
+            "Accountability for production reliability and governance.",
+          ],
+        },
+        writing_automation: {
+          meaning:
+            "LLMs can generate drafts of reports, emails, scripts, and content, reducing time on repetitive writing workflows.",
+          changes: [
+            "First drafts are produced faster for sales, admin, and content roles.",
+            "Editing and fact-checking become core quality-control tasks.",
+            "Organizations may expect faster turnaround for document-heavy work.",
+          ],
+          human: [
+            "Voice, persuasion strategy, and audience nuance.",
+            "Sensitive messaging and reputation-risk judgment.",
+            "Final accountability for correctness and compliance.",
+          ],
+        },
+        knowledge_work_routinization: {
+          meaning:
+            "Routine information tasks can be standardized with LLM assistance, especially where workflows follow repeatable templates.",
+          changes: [
+            "Research summaries and standard documentation are completed faster.",
+            "Staff focus shifts from preparation to validation and exception handling.",
+            "Workflows become more process-driven across teams.",
+          ],
+          human: [
+            "Contextual judgment in ambiguous or high-stakes cases.",
+            "Relationship management and cross-team coordination.",
+            "Final decisions where policy, ethics, or local context matter.",
+          ],
+        },
+        analysis_automation: {
+          meaning:
+            "LLMs help synthesize data and produce structured insights, reducing manual analysis effort for recurring business questions.",
+          changes: [
+            "Dashboards and narrative summaries are produced with less manual effort.",
+            "Analysts spend more time on outlier detection and decision support.",
+            "Basic forecasting and reporting cycles can accelerate.",
+          ],
+          human: [
+            "Choosing correct assumptions and interpreting weak signals.",
+            "Deciding actions under uncertainty and business constraints.",
+            "Owning data quality and model-risk governance.",
+          ],
+        },
+        generative_ai: {
+          meaning:
+            "The role can be reshaped by broad LLM use cases beyond one narrow workflow, including synthesis, drafting, and assisted decision support.",
+          changes: [
+            "Teams adopt AI copilots for daily drafting and planning tasks.",
+            "Output expectations increase because baseline work becomes faster.",
+            "Cross-functional workers rely more on AI-assisted self-service.",
+          ],
+          human: [
+            "Setting objectives, ethics boundaries, and final sign-off.",
+            "Handling novel edge cases and high-context exceptions.",
+            "Building trust with clients, citizens, or patients.",
+          ],
+        },
+        minimal: {
+          meaning:
+            "Core work is mostly physical, field-based, or high-touch service where LLMs have limited direct automation pathways today.",
+          changes: [
+            "Documentation, messaging, or scheduling may still get small AI support.",
+            "Some OFW channels may feel faster change if destination employers automate back-office tasks.",
+            "Task reshaping is usually incremental, not immediate replacement.",
+          ],
+          human: [
+            "Physical execution, safety judgment, and situational awareness.",
+            "On-site problem solving and direct human interaction.",
+            "Community and customer trust in real-world service delivery.",
+          ],
+        },
+      };
 
       function boostContrast(t) {
         const c = (t - 0.5) * 2;
@@ -895,16 +1217,116 @@
 
       // ── Rendering ──────────────────────────────────────────────────────────
 
+      let allData = [];
       let data = [];
       let rects = [];
       let hovered = null;
       let pinnedTooltip = null;
+      let selectedOccupation = null;
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
       let dpr = window.devicePixelRatio || 1;
       let MARGIN = 12,
         GAP = 1.5,
         compactLayout = isCompactLayout();
+
+      function getFilteredData() {
+        if (industryFilter === "all") return allData;
+        return allData.filter((d) => String(d.psoc_major) === industryFilter);
+      }
+
+      function updateIndustryFilterNote() {
+        const el = document.getElementById("industryFilterNote");
+        if (!el) return;
+        if (industryFilter === "all") {
+          el.textContent = `Showing all ${allData.length} occupations`;
+          return;
+        }
+        const filtered = getFilteredData();
+        const label = filtered.length > 0 ? filtered[0].psoc_label : "industry";
+        el.textContent = `Showing ${filtered.length} occupations in ${label}`;
+      }
+
+      function applyIndustryFilter() {
+        data = getFilteredData();
+        updateIndustryFilterNote();
+        updateStats();
+        drawGradientLegend();
+        resize();
+      }
+
+      function populateIndustryFilter() {
+        const select = document.getElementById("industryFilter");
+        if (!select) return;
+        const groups = Array.from(
+          new Map(
+            allData.map((d) => [String(d.psoc_major), d.psoc_label]),
+          ).entries(),
+        ).sort((a, b) => Number(a[0]) - Number(b[0]));
+
+        select.innerHTML = "";
+        const allOpt = document.createElement("option");
+        allOpt.value = "all";
+        allOpt.textContent = "All Industries";
+        select.appendChild(allOpt);
+
+        for (const [major, label] of groups) {
+          const opt = document.createElement("option");
+          opt.value = major;
+          opt.textContent = `${major} - ${label}`;
+          select.appendChild(opt);
+        }
+
+        if (
+          !Array.from(select.options).some((o) => o.value === industryFilter)
+        ) {
+          industryFilter = "all";
+        }
+        select.value = industryFilter;
+      }
+
+      function setListItems(targetId, items) {
+        const list = document.getElementById(targetId);
+        if (!list) return;
+        list.innerHTML = "";
+        for (const item of items) {
+          const li = document.createElement("li");
+          li.textContent = item;
+          list.appendChild(li);
+        }
+      }
+
+      function openRiskExplainer(occupation) {
+        if (!occupation) return;
+        selectedOccupation = occupation;
+        const key = occupation.primary_risk_vector || "minimal";
+        const info = RISK_VECTOR_INFO[key] || RISK_VECTOR_INFO.minimal;
+        const label = RISK_VECTOR_LABELS[key] || "Unknown";
+
+        document.getElementById("riskTitle").textContent = occupation.title;
+        document.getElementById("riskMeta").innerHTML =
+          `<span>Risk vector: <b>${label}</b></span>` +
+          `<span>Exposure: <b>${occupation.exposure != null ? occupation.exposure + "/10" : "—"}</b></span>`;
+        document.getElementById("riskMeaning").textContent = info.meaning;
+        setListItems("riskChanges", info.changes);
+        setListItems("riskHuman", info.human);
+        document.getElementById("riskOccupationContext").textContent =
+          occupation.exposure_rationale ||
+          "This occupation has limited rationale text available in the current dataset.";
+
+        document.getElementById("riskOverlay").classList.add("visible");
+        const panel = document.getElementById("riskPanel");
+        panel.classList.add("visible");
+        panel.setAttribute("aria-hidden", "false");
+      }
+
+      function closeRiskExplainer() {
+        selectedOccupation = null;
+        document.getElementById("riskOverlay").classList.remove("visible");
+        const panel = document.getElementById("riskPanel");
+        panel.classList.remove("visible");
+        panel.setAttribute("aria-hidden", "true");
+      }
 
       function fitCanvasText(text, maxWidth, font) {
         ctx.font = font;
@@ -1822,19 +2244,20 @@
             hideTooltip();
             hovered = null;
             draw();
-            return;
-          }
-          if (pinnedTooltip === hit && hit.url) {
-            window.open(hit.url, "_blank");
+            closeRiskExplainer();
             return;
           }
           pinnedTooltip = hit;
           showTooltip(hit, e.clientX, e.clientY);
           hovered = hit;
+          openRiskExplainer(hit);
           draw();
           return;
         }
-        if (hit && hit.url) window.open(hit.url, "_blank");
+        if (hit) {
+          openRiskExplainer(hit);
+          if (hit.url) window.open(hit.url, "_blank");
+        }
       });
       canvas.addEventListener("mouseleave", () => {
         if (compactLayout) return;
@@ -1902,6 +2325,25 @@
         requestAnimationFrame(resize);
       });
 
+      document
+        .getElementById("industryFilter")
+        .addEventListener("change", (e) => {
+          industryFilter = e.target.value;
+          localStorage.setItem("trabaholens_industryFilter", industryFilter);
+          closeRiskExplainer();
+          applyIndustryFilter();
+        });
+
+      document.getElementById("riskClose").addEventListener("click", () => {
+        closeRiskExplainer();
+      });
+      document.getElementById("riskOverlay").addEventListener("click", () => {
+        closeRiskExplainer();
+      });
+      window.addEventListener("keydown", (e) => {
+        if (e.key === "Escape") closeRiskExplainer();
+      });
+
       window.addEventListener("resize", resize);
       window.addEventListener("orientationchange", resize);
 
@@ -1910,7 +2352,7 @@
       fetch("data.json")
         .then((r) => r.json())
         .then((d) => {
-          data = d;
+          allData = d;
           // Restore the saved layer button's active state
           const activeBtn = document.querySelector(
             `#colorToggle button[data-mode="${colorMode}"]`,
@@ -1921,12 +2363,9 @@
               .forEach((b) => b.classList.remove("active"));
             activeBtn.classList.add("active");
           }
-          updateStats();
-          drawGradientLegend();
-          resize();
+          populateIndustryFilter();
+          applyIndustryFilter();
         });
-
-      window.addEventListener("resize", resize);
     </script>
   </body>
 </html>

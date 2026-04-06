@@ -53,6 +53,7 @@ def main():
             "education": int(row["education_code"]) if row["education_code"] else None,
             "exposure": score.get("exposure"),
             "exposure_rationale": score.get("rationale"),
+            "primary_risk_vector": score.get("primary_risk_vector"),
             "ofw_share": float(row["ofw_share"]),
             "informal_share": float(row["informal_share"]),
             "psoc_major": int(row["psoc_major"]),
