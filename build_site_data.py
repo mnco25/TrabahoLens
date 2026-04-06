@@ -1,7 +1,7 @@
 """
 Build the website JSON by merging CSV stats with AI exposure scores.
 
-Reads occupations_ph.csv (for stats) and scores.json (for AI exposure).
+Reads occupations_ph.csv (for stats) and scores_ai_only.json (for AI exposure).
 Writes site/data.json.
 
 Usage:
@@ -15,7 +15,7 @@ import os
 
 def main():
     # Load AI exposure scores
-    with open("scores.json") as f:
+    with open("scores_ai_only.json") as f:
         scores_list = json.load(f)
     scores = {s["title"]: s for s in scores_list}
 
@@ -23,6 +23,19 @@ def main():
     with open("occupations_ph.csv") as f:
         reader = csv.DictReader(f)
         rows = list(reader)
+
+    # Fail fast if any occupation title is missing from the score map.
+    missing_titles = []
+    for row in rows:
+        title = row["title"]
+        if title not in scores:
+            missing_titles.append(title)
+
+    if missing_titles:
+        print(f"WARNING: {len(missing_titles)} titles missing from scores:")
+        for title in missing_titles[:10]:
+            print(f"  - {title}")
+        raise RuntimeError(f"Aborting build: {len(missing_titles)} missing scores")
 
     # Merge
     data = []
