@@ -74,7 +74,7 @@ Output schema is strict JSON:
 5. **Tabulate** (`make_csv_ph.py`) — Converts `data/ph_occupations_v2_with_stats.json` into `occupations_ph.csv` with the downstream column set.
 6. **Score** (`score_ai_only.py`) — Sends each occupation profile to Anthropic Claude Haiku using the strict generative-AI rubric and writes `scores_ai_only.json`.
 7. **Build site data** (`build_site_data.py`) — Merges `occupations_ph.csv` and `scores_ai_only.json` into `site/data.json` for the visualization.
-6. **Website** (`site/index.html`) — Interactive treemap visualization with Philippine-calibrated layers and tooltips.
+8. **Website** (`site/index.html`) — Interactive treemap visualization with Philippine-calibrated layers and tooltips.
 
 ## Key files
 
@@ -104,10 +104,10 @@ uv sync
 pip install -r requirements.txt
 ```
 
-Requires an Anthropic API key in `.env`:
+Requires an OpenRouter API key in `.env`:
 
 ```bash
-ANTHROPIC_API_KEY=your_key_here
+OPENROUTER_API_KEY=your_key_here
 ```
 
 ## Data Sources
