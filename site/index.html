@@ -401,7 +401,7 @@
       canvas#canvas {
         display: block;
         cursor: default;
-        touch-action: manipulation;
+        touch-action: none;
       }
 
       #tooltip {
@@ -413,7 +413,7 @@
         padding: 12px 16px;
         font-size: 13px;
         line-height: 1.5;
-        max-width: 340px;
+        max-width: 440px;
         max-height: min(44vh, 360px);
         overflow: auto;
         opacity: 0;
@@ -441,6 +441,7 @@
         font-size: 14px;
         margin-bottom: 6px;
         color: var(--accent);
+        overflow-wrap: anywhere;
       }
 
       #tooltip .tt-exposure {
@@ -462,6 +463,7 @@
       #tooltip .tt-stats .value {
         color: var(--fg);
         text-align: right;
+        overflow-wrap: anywhere;
       }
 
       #tooltip .tt-rationale {
@@ -1223,12 +1225,158 @@
       let hovered = null;
       let pinnedTooltip = null;
       let selectedOccupation = null;
+      let zoomEnabled = true;
+      let zoomScale = 1;
+      let zoomPanX = 0;
+      let zoomPanY = 0;
+      let viewportW = 0;
+      let viewportH = 0;
+      let isPanning = false;
+      let lastPanClient = null;
+      let zoomAnimationFrame = null;
+      let lastTapTime = 0;
+      let lastTapClient = null;
+      let pinchStartDistance = 0;
+      let pinchStartScale = 1;
+      let pinchAnchor = null;
+      let suppressNextClick = false;
+      let drawRequested = false;
+      const activePointers = new Map();
+      const textMeasureCache = new Map();
+      const ZOOM_MIN = 1;
+      const ZOOM_MAX = 6;
       const canvas = document.getElementById("canvas");
       const ctx = canvas.getContext("2d");
       let dpr = window.devicePixelRatio || 1;
       let MARGIN = 12,
         GAP = 1.5,
         compactLayout = isCompactLayout();
+
+      function zoomApplies() {
+        return zoomEnabled && zoomScale > 1;
+      }
+
+      function clampPan() {
+        if (!zoomApplies()) {
+          zoomPanX = 0;
+          zoomPanY = 0;
+          return;
+        }
+        const minX = viewportW * (1 - zoomScale);
+        const minY = viewportH * (1 - zoomScale);
+        zoomPanX = Math.max(minX, Math.min(0, zoomPanX));
+        zoomPanY = Math.max(minY, Math.min(0, zoomPanY));
+      }
+
+      function updateZoomUi() {
+        return;
+      }
+
+      function setZoomEnabled(enabled) {
+        zoomEnabled = enabled;
+        if (!zoomEnabled) {
+          zoomScale = 1;
+          zoomPanX = 0;
+          zoomPanY = 0;
+        }
+        updateZoomUi();
+      }
+
+      function animateToZoom(
+        targetScale,
+        targetPanX,
+        targetPanY,
+        duration = 520,
+      ) {
+        if (zoomAnimationFrame) cancelAnimationFrame(zoomAnimationFrame);
+        const startScale = zoomScale;
+        const startPanX = zoomPanX;
+        const startPanY = zoomPanY;
+        const endScale = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, targetScale));
+        const endPanX = targetPanX;
+        const endPanY = targetPanY;
+        const t0 = performance.now();
+
+        function frame(now) {
+          const raw = Math.min(1, (now - t0) / duration);
+          const ease = 1 - Math.pow(1 - raw, 3);
+          zoomScale = startScale + (endScale - startScale) * ease;
+          zoomPanX = startPanX + (endPanX - startPanX) * ease;
+          zoomPanY = startPanY + (endPanY - startPanY) * ease;
+          clampPan();
+          updateZoomUi();
+          draw();
+          if (raw < 1) {
+            zoomAnimationFrame = requestAnimationFrame(frame);
+          } else {
+            zoomAnimationFrame = null;
+          }
+        }
+        zoomAnimationFrame = requestAnimationFrame(frame);
+      }
+
+      function resetZoom(animated = true) {
+        if (animated && zoomScale !== 1) {
+          animateToZoom(1, 0, 0, 460);
+          return;
+        }
+        zoomScale = 1;
+        zoomPanX = 0;
+        zoomPanY = 0;
+        clampPan();
+        updateZoomUi();
+      }
+
+      function applyZoomAtCanvasPoint(
+        canvasX,
+        canvasY,
+        newScale,
+        animated = false,
+      ) {
+        if (!zoomEnabled) return;
+        const clamped = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, newScale));
+        const worldX = (canvasX - zoomPanX) / zoomScale;
+        const worldY = (canvasY - zoomPanY) / zoomScale;
+        const targetPanX = canvasX - worldX * clamped;
+        const targetPanY = canvasY - worldY * clamped;
+
+        if (animated) {
+          animateToZoom(clamped, targetPanX, targetPanY, 520);
+          return;
+        }
+
+        zoomScale = clamped;
+        zoomPanX = targetPanX;
+        zoomPanY = targetPanY;
+        clampPan();
+        updateZoomUi();
+        draw();
+      }
+
+      function zoomToRect(tile, animated = true) {
+        if (!tile || !zoomEnabled) return;
+        const tileW = Math.max(24, tile.rw);
+        const tileH = Math.max(24, tile.rh);
+        const fitScale = Math.min(
+          viewportW / (tileW * 1.5),
+          viewportH / (tileH * 1.5),
+        );
+        const targetScale = Math.max(1.4, Math.min(ZOOM_MAX, fitScale));
+        const cx = tile.rx + tile.rw / 2;
+        const cy = tile.ry + tile.rh / 2;
+        const targetPanX = viewportW / 2 - cx * targetScale;
+        const targetPanY = viewportH / 2 - cy * targetScale;
+        if (animated) {
+          animateToZoom(targetScale, targetPanX, targetPanY, 560);
+        } else {
+          zoomScale = targetScale;
+          zoomPanX = targetPanX;
+          zoomPanY = targetPanY;
+          clampPan();
+          updateZoomUi();
+          draw();
+        }
+      }
 
       function getFilteredData() {
         if (industryFilter === "all") return allData;
@@ -1249,6 +1397,8 @@
 
       function applyIndustryFilter() {
         data = getFilteredData();
+        setZoomEnabled(industryFilter === "all");
+        resetZoom(false);
         updateIndustryFilterNote();
         updateStats();
         drawGradientLegend();
@@ -1329,16 +1479,41 @@
       }
 
       function fitCanvasText(text, maxWidth, font) {
-        ctx.font = font;
-        if (ctx.measureText(text).width <= maxWidth) return text;
+        if (measureTextWidth(text, font) <= maxWidth) return text;
         let end = text.length;
         while (
           end > 1 &&
-          ctx.measureText(text.slice(0, end) + "…").width > maxWidth
+          measureTextWidth(text.slice(0, end) + "…", font) > maxWidth
         ) {
           end--;
         }
         return text.slice(0, end).trimEnd() + "…";
+      }
+
+      function measureTextWidth(text, font) {
+        const key = `${font}::${text}`;
+        const cached = textMeasureCache.get(key);
+        if (cached != null) return cached;
+        ctx.save();
+        ctx.font = font;
+        const width = ctx.measureText(text).width;
+        ctx.restore();
+        textMeasureCache.set(key, width);
+        return width;
+      }
+
+      function requestDraw() {
+        if (drawRequested) return;
+        drawRequested = true;
+        requestAnimationFrame(() => {
+          drawRequested = false;
+          draw();
+        });
+      }
+
+      function zoomTextScale() {
+        if (!zoomApplies()) return 1;
+        return Math.min(1.8, 1 + (zoomScale - 1) * 0.22);
       }
 
       function layout() {
@@ -1355,6 +1530,10 @@
         canvas.height = h * dpr;
         canvas.style.width = w + "px";
         canvas.style.height = h + "px";
+        const prevW = viewportW || w;
+        const prevH = viewportH || h;
+        viewportW = w;
+        viewportH = h;
         const tx = MARGIN,
           ty = MARGIN,
           tw = w - MARGIN * 2,
@@ -1386,12 +1565,29 @@
           );
           for (const ir of innerRects) rects.push(ir);
         }
+
+        if (zoomApplies()) {
+          zoomPanX *= viewportW / prevW;
+          zoomPanY *= viewportH / prevH;
+          clampPan();
+        }
       }
 
       function draw() {
+        drawRequested = false;
         ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
         ctx.fillStyle = "#0a0a0f";
         ctx.fillRect(0, 0, canvas.width / dpr, canvas.height / dpr);
+        const screenScale = zoomApplies() ? zoomScale : 1;
+        const textScale = zoomTextScale();
+        const screenPanX = zoomApplies() ? zoomPanX : 0;
+        const screenPanY = zoomApplies() ? zoomPanY : 0;
+
+        if (zoomApplies()) {
+          ctx.save();
+          ctx.translate(zoomPanX, zoomPanY);
+          ctx.scale(zoomScale, zoomScale);
+        }
         for (const r of rects) {
           const isHovered = r === hovered;
           const g = GAP / 2,
@@ -1404,38 +1600,94 @@
           ctx.fillRect(rx, ry, rw, rh);
           if (isHovered) {
             ctx.strokeStyle = "#f2c98f";
-            ctx.lineWidth = 2;
+            ctx.lineWidth = 2 / Math.max(1, zoomScale);
             ctx.strokeRect(rx, ry, rw, rh);
           }
+        }
+        if (zoomApplies()) {
+          ctx.restore();
+        }
+
+        for (const r of rects) {
+          const isHovered = r === hovered;
+          const g = GAP / 2,
+            rx = r.rx + g,
+            ry = r.ry + g,
+            rw = r.rw - g * 2,
+            rh = r.rh - g * 2;
+          if (rw <= 0 || rh <= 0) continue;
+
+          const screenRx = rx * screenScale + screenPanX;
+          const screenRy = ry * screenScale + screenPanY;
+          const screenRw = rw * screenScale;
+          const screenRh = rh * screenScale;
           if (
-            rw > (compactLayout ? 42 : 50) &&
-            rh > (compactLayout ? 20 : 18)
+            screenRw < (compactLayout ? 42 : 50) ||
+            screenRh < (compactLayout ? 20 : 18)
           ) {
-            ctx.save();
-            ctx.beginPath();
-            ctx.rect(rx + 4, ry + 2, rw - 8, rh - 4);
-            ctx.clip();
-            const fontSize = Math.min(
-              compactLayout ? 14 : 13,
-              Math.max(compactLayout ? 9.5 : 9, Math.min(rw / 10, rh / 3)),
-            );
-            const titleFont = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
-            ctx.font = titleFont;
-            ctx.fillStyle = isHovered ? "#f2c98f" : "rgba(255,255,255,0.82)";
-            ctx.textBaseline = "top";
-            const title = fitCanvasText(r.title, rw - 10, titleFont);
-            ctx.fillText(title, rx + 5, ry + 4);
-            if (
-              rh > (compactLayout ? 30 : 34) &&
-              rw > (compactLayout ? 52 : 60)
-            ) {
-              const subFont = `400 ${Math.max(8, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
-              ctx.font = subFont;
-              ctx.fillStyle = "rgba(255,255,255,0.5)";
-              ctx.fillText(tileSubInfo(r), rx + 5, ry + 4 + fontSize + 2);
-            }
-            ctx.restore();
+            continue;
           }
+
+          const fontSize = Math.max(
+            compactLayout ? 10 : 11,
+            Math.min(
+              compactLayout ? 18 : 17,
+              Math.min(screenRh / 2.8, screenRw / 11) * textScale,
+            ),
+          );
+          const titleFont = `500 ${fontSize}px -apple-system, system-ui, sans-serif`;
+          const subFont = `400 ${Math.max(8, fontSize - 2)}px -apple-system, system-ui, sans-serif`;
+          const titleY = screenRy + 5;
+          const subY = screenRy + 7 + fontSize;
+          const innerWidth = Math.max(0, screenRw - 10);
+          const innerHeight = Math.max(0, screenRh - 4);
+          const titleFits = measureTextWidth(r.title, titleFont) <= innerWidth;
+          const canShowFullText =
+            zoomApplies() && zoomScale >= 1.15 && titleFits;
+
+          ctx.save();
+          if (!canShowFullText) {
+            ctx.beginPath();
+            ctx.rect(screenRx + 4, screenRy + 2, innerWidth, innerHeight);
+            ctx.clip();
+          }
+          ctx.font = titleFont;
+          ctx.fillStyle = isHovered ? "#f2c98f" : "rgba(255,255,255,0.84)";
+          ctx.textBaseline = "top";
+          const title = canShowFullText
+            ? r.title
+            : fitCanvasText(r.title, innerWidth, titleFont);
+          ctx.fillText(title, screenRx + 5, titleY);
+
+          if (
+            screenRh > (compactLayout ? 30 : 34) &&
+            screenRw > (compactLayout ? 52 : 60)
+          ) {
+            ctx.font = subFont;
+            ctx.fillStyle = "rgba(255,255,255,0.58)";
+            const subText = tileSubInfo(r);
+            const subFits = measureTextWidth(subText, subFont) <= innerWidth;
+            ctx.fillText(
+              subFits ? subText : fitCanvasText(subText, innerWidth, subFont),
+              screenRx + 5,
+              subY,
+            );
+
+            if (zoomApplies() && zoomScale >= 2 && screenRh > 56) {
+              const detailFont = `400 ${Math.max(8, fontSize - 3)}px -apple-system, system-ui, sans-serif`;
+              ctx.font = detailFont;
+              ctx.fillStyle = "rgba(255,255,255,0.46)";
+              const wageLine = `Wage: ${formatPay(r.pay)}`;
+              if (measureTextWidth(wageLine, detailFont) <= innerWidth) {
+                ctx.fillText(
+                  wageLine,
+                  screenRx + 5,
+                  subY + Math.max(13, fontSize - 1),
+                );
+              }
+            }
+          }
+          ctx.restore();
         }
       }
 
@@ -1443,9 +1695,11 @@
         const rect = canvas.getBoundingClientRect();
         const cx = mx - rect.left,
           cy = my - rect.top;
+        const wx = zoomApplies() ? (cx - zoomPanX) / zoomScale : cx;
+        const wy = zoomApplies() ? (cy - zoomPanY) / zoomScale : cy;
         for (let i = rects.length - 1; i >= 0; i--) {
           const r = rects[i];
-          if (cx >= r.rx && cx < r.rx + r.rw && cy >= r.ry && cy < r.ry + r.rh)
+          if (wx >= r.rx && wx < r.rx + r.rw && wy >= r.ry && wy < r.ry + r.rh)
             return r;
         }
         return null;
@@ -2223,35 +2477,56 @@
       // ── Events ─────────────────────────────────────────────────────────────
 
       canvas.addEventListener("mousemove", (e) => {
-        if (compactLayout) return;
+        if (compactLayout || isPanning) return;
         const hit = hitTest(e.clientX, e.clientY);
         if (hit !== hovered) {
           hovered = hit;
-          draw();
+          requestDraw();
         }
         if (hovered) {
           showTooltip(hovered, e.clientX, e.clientY);
           canvas.style.cursor = "pointer";
         } else {
           hideTooltip();
-          canvas.style.cursor = "default";
+          canvas.style.cursor =
+            zoomEnabled && zoomScale > 1 ? "grab" : "default";
         }
       });
       canvas.addEventListener("click", (e) => {
+        if (suppressNextClick) {
+          suppressNextClick = false;
+          return;
+        }
         const hit = hitTest(e.clientX, e.clientY);
         if (compactLayout) {
           if (!hit) {
             hideTooltip();
             hovered = null;
-            draw();
+            requestDraw();
             closeRiskExplainer();
             return;
           }
           pinnedTooltip = hit;
           showTooltip(hit, e.clientX, e.clientY);
           hovered = hit;
-          openRiskExplainer(hit);
-          draw();
+          const now = Date.now();
+          const dblTap =
+            zoomEnabled &&
+            lastTapClient &&
+            now - lastTapTime < 320 &&
+            Math.hypot(
+              lastTapClient.x - e.clientX,
+              lastTapClient.y - e.clientY,
+            ) < 28;
+          lastTapTime = now;
+          lastTapClient = { x: e.clientX, y: e.clientY };
+          if (dblTap) {
+            hideTooltip();
+            zoomToRect(hit, true);
+          } else {
+            openRiskExplainer(hit);
+          }
+          requestDraw();
           return;
         }
         if (hit) {
@@ -2259,18 +2534,127 @@
           if (hit.url) window.open(hit.url, "_blank");
         }
       });
+      canvas.addEventListener("dblclick", (e) => {
+        if (!zoomEnabled) return;
+        const hit = hitTest(e.clientX, e.clientY);
+        if (!hit) return;
+        e.preventDefault();
+        zoomToRect(hit, true);
+      });
+      canvas.addEventListener(
+        "wheel",
+        (e) => {
+          if (!zoomEnabled || (!e.ctrlKey && !e.metaKey)) return;
+          e.preventDefault();
+          const rect = canvas.getBoundingClientRect();
+          const canvasX = e.clientX - rect.left;
+          const canvasY = e.clientY - rect.top;
+          const factor = e.deltaY > 0 ? 0.9 : 1.1;
+          const next = Math.max(
+            ZOOM_MIN,
+            Math.min(ZOOM_MAX, zoomScale * factor),
+          );
+          applyZoomAtCanvasPoint(canvasX, canvasY, next, false);
+        },
+        { passive: false },
+      );
       canvas.addEventListener("mouseleave", () => {
-        if (compactLayout) return;
+        if (compactLayout || isPanning) return;
         hovered = null;
         hideTooltip();
-        draw();
+        requestDraw();
       });
+
+      canvas.addEventListener("pointerdown", (e) => {
+        activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (!zoomEnabled) return;
+        canvas.setPointerCapture(e.pointerId);
+        if (activePointers.size === 1 && zoomScale > 1) {
+          isPanning = true;
+          lastPanClient = { x: e.clientX, y: e.clientY };
+          canvas.style.cursor = "grabbing";
+        }
+        if (activePointers.size === 2) {
+          const pts = Array.from(activePointers.values());
+          pinchStartDistance = Math.hypot(
+            pts[1].x - pts[0].x,
+            pts[1].y - pts[0].y,
+          );
+          pinchStartScale = zoomScale;
+          const rect = canvas.getBoundingClientRect();
+          pinchAnchor = {
+            x: (pts[0].x + pts[1].x) / 2 - rect.left,
+            y: (pts[0].y + pts[1].y) / 2 - rect.top,
+          };
+          isPanning = false;
+        }
+      });
+
+      canvas.addEventListener("pointermove", (e) => {
+        if (!activePointers.has(e.pointerId)) return;
+        activePointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+        if (!zoomEnabled) return;
+
+        if (
+          activePointers.size === 2 &&
+          pinchStartDistance > 0 &&
+          pinchAnchor
+        ) {
+          const pts = Array.from(activePointers.values());
+          const dist = Math.hypot(pts[1].x - pts[0].x, pts[1].y - pts[0].y);
+          const ratio = dist / pinchStartDistance;
+          const target = pinchStartScale * ratio;
+          applyZoomAtCanvasPoint(pinchAnchor.x, pinchAnchor.y, target, false);
+          e.preventDefault();
+          return;
+        }
+
+        if (isPanning && lastPanClient && zoomScale > 1) {
+          const dx = e.clientX - lastPanClient.x;
+          const dy = e.clientY - lastPanClient.y;
+          if (Math.hypot(dx, dy) > 2) {
+            suppressNextClick = true;
+          }
+          lastPanClient = { x: e.clientX, y: e.clientY };
+          zoomPanX += dx;
+          zoomPanY += dy;
+          clampPan();
+          hovered = null;
+          hideTooltip();
+          requestDraw();
+          e.preventDefault();
+        }
+      });
+
+      function releasePointerState(pointerId) {
+        activePointers.delete(pointerId);
+        if (activePointers.size < 2) {
+          pinchStartDistance = 0;
+          pinchAnchor = null;
+        }
+        if (activePointers.size === 0) {
+          isPanning = false;
+          lastPanClient = null;
+          canvas.style.cursor =
+            zoomEnabled && zoomScale > 1 ? "grab" : "default";
+        }
+      }
+
+      canvas.addEventListener("pointerup", (e) =>
+        releasePointerState(e.pointerId),
+      );
+      canvas.addEventListener("pointercancel", (e) =>
+        releasePointerState(e.pointerId),
+      );
+
       function resize() {
         dpr = window.devicePixelRatio || 1;
         compactLayout = isCompactLayout();
         layout();
         hideTooltip();
-        draw();
+        clampPan();
+        updateZoomUi();
+        requestDraw();
       }
 
       // ── Legend gradient ────────────────────────────────────────────────────
@@ -2341,7 +2725,10 @@
         closeRiskExplainer();
       });
       window.addEventListener("keydown", (e) => {
-        if (e.key === "Escape") closeRiskExplainer();
+        if (e.key === "Escape") {
+          closeRiskExplainer();
+          resetZoom(true);
+        }
       });
 
       window.addEventListener("resize", resize);
