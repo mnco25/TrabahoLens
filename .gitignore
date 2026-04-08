@@ -8,6 +8,7 @@ wheels/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
+.coverage
 
 # Virtual environments
 .venv
@@ -27,18 +28,11 @@ wheels/
 id_rsa
 id_ed25519
 
-# Parsed markdown (reproducible via process.py)
-pages/
-html/
-data/psa_raw/
-data/onet/
-data/onet_occupations.json
-data/ph_occupations_v2.json
-data/ph_occupations_v2_with_stats.json
-
-# Embeddings (unused in final visualization)
-embed.py
-embeddings.json
+# Generated raw inputs
+data/raw/
+data/derived/onet_occupations.json
+data/derived/ph_occupations_v2.json
+data/derived/ph_occupations_v2_with_stats.json
 
 # Local logs and runtime output
 *.log
@@ -49,3 +43,6 @@ logs/
 
 # Editor folders
 .vscode/
+
+# Legacy/editor scratch files
+pages/

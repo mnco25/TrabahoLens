@@ -1,12 +1,21 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
 [project]
-name = "jobs"
+name = "trabaholens"
 version = "0.1.0"
-description = "Add your description here"
+description = "Philippine job-market AI exposure explorer and data pipeline."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.10,<4.0"
 dependencies = [
-    "beautifulsoup4>=4.14.3",
-    "httpx>=0.28.1",
-    "playwright>=1.58.0",
+    "openai>=1.0.0",
     "python-dotenv>=1.2.2",
+    "requests>=2.31.0",
 ]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
