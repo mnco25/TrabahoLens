@@ -30,6 +30,11 @@ cp .env.example .env
 # add OPENROUTER_API_KEY to .env
 uv run python scripts/score_ai_only.py
 uv run python scripts/build_site_data.py
+
+# Optional: score with a specific OpenRouter model
+uv run python scripts/score_ai_only.py --model claude-3-5-haiku
+uv run python scripts/score_ai_only.py --model google/gemini-2.5-flash
+uv run python scripts/score_ai_only.py --model openai/gpt-4o-mini
 ```
 
 ## Data Layout
@@ -70,4 +75,6 @@ The repo keeps the derived demo artifacts committed so contributors can inspect 
 ## Notes
 
 - `OPENROUTER_API_KEY` is only needed for rescoring.
+- The default scorer model is `claude-3-5-haiku`.
+- You can switch models through OpenRouter with `--model`, including Claude, Gemini, GPT, and other compatible providers.
 - More detailed scoring notes live in `docs/openrouter-setup.md`.
