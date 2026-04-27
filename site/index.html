@@ -8,6 +8,10 @@
       content="TrabahoLens is a minimalist Philippine job market treemap visualizer."
     />
     <meta name="theme-color" content="#0a0a0f" />
+    <meta property="og:title" content="TrabahoLens — Philippine Job Market Visualizer" />
+    <meta property="og:description" content="Interactive treemap of 173 Philippine occupations showing AI exposure, wages, education, and more." />
+    <meta property="og:type" content="website" />
+    <meta name="twitter:card" content="summary_large_image" />
     <title>TrabahoLens — Philippine Job Market Visualizer</title>
     <style>
       *,
@@ -58,6 +62,231 @@
 
       ::-webkit-scrollbar-thumb:hover {
         background: rgba(140, 140, 150, 0.7);
+      }
+
+      /* Loading skeleton pulse */
+      @keyframes skeletonPulse {
+        0%, 100% { opacity: 0.4; }
+        50% { opacity: 0.8; }
+      }
+
+      .skeleton {
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 4px;
+        animation: skeletonPulse 1.6s ease-in-out infinite;
+        display: inline-block;
+      }
+
+      .skeleton-stat {
+        width: 60px;
+        height: 32px;
+      }
+
+      .skeleton-block {
+        width: 100%;
+        height: 60px;
+      }
+
+      /* Animated number counter */
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(6px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      .stat-animated {
+        animation: fadeInUp 0.35s ease-out;
+      }
+
+      /* Canvas fade for layer switch */
+      canvas#canvas {
+        transition: opacity 0.18s ease;
+      }
+
+      canvas#canvas.switching {
+        opacity: 0.4;
+      }
+
+      /* Layer description text */
+      .layer-desc {
+        font-size: 11px;
+        color: var(--fg2);
+        margin-top: 4px;
+        line-height: 1.35;
+        min-height: 15px;
+        transition: opacity 0.2s ease;
+      }
+
+      /* Keyboard hints */
+      .kbd-hint {
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.3);
+        margin-top: 6px;
+      }
+
+      .kbd-hint kbd {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 3px;
+        padding: 1px 5px;
+        font-family: inherit;
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.4);
+      }
+
+      /* Tooltip enhancements */
+      #tooltip .tt-category {
+        display: inline-block;
+        font-size: 10px;
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        color: var(--fg2);
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 3px;
+        padding: 1px 6px;
+        margin-bottom: 4px;
+      }
+
+      #tooltip .tt-percentile {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 2px;
+      }
+
+      #tooltip .tt-click-hint {
+        font-size: 10px;
+        color: rgba(255, 255, 255, 0.28);
+        margin-top: 6px;
+        text-align: center;
+        border-top: 1px solid rgba(255, 255, 255, 0.06);
+        padding-top: 6px;
+      }
+
+      #tooltip .tt-stats .mini-bar {
+        display: inline-block;
+        height: 3px;
+        border-radius: 1.5px;
+        background: rgba(255, 255, 255, 0.08);
+        width: 40px;
+        margin-left: 6px;
+        vertical-align: middle;
+        position: relative;
+        overflow: hidden;
+      }
+
+      #tooltip .tt-stats .mini-bar-fill {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        border-radius: 1.5px;
+      }
+
+      #tooltip .tt-stats .value {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        gap: 4px;
+      }
+
+      /* Risk panel gauge */
+      .risk-gauge {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-top: 2px;
+      }
+
+      .risk-gauge-bar {
+        flex: 1;
+        height: 6px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 3px;
+        overflow: hidden;
+      }
+
+      .risk-gauge-fill {
+        height: 100%;
+        border-radius: 3px;
+        transition: width 0.4s ease;
+      }
+
+      .risk-gauge-label {
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+        min-width: 40px;
+        text-align: right;
+      }
+
+      .risk-comparative {
+        font-size: 11px;
+        color: var(--fg2);
+        margin-top: 4px;
+      }
+
+      .risk-related {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+      }
+
+      .risk-related-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 12px;
+        padding: 5px 8px;
+        background: rgba(255, 255, 255, 0.02);
+        border-radius: 4px;
+        border: 1px solid rgba(255, 255, 255, 0.04);
+      }
+
+      .risk-related-item .related-title {
+        color: var(--fg);
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .risk-related-item .related-score {
+        color: var(--fg2);
+        font-size: 11px;
+        flex-shrink: 0;
+        margin-left: 8px;
+      }
+
+      .risk-impact-row {
+        display: flex;
+        gap: 12px;
+        margin-top: 4px;
+      }
+
+      .risk-impact-item {
+        flex: 1;
+        text-align: center;
+      }
+
+      .risk-impact-item .impact-val {
+        font-size: 16px;
+        font-weight: 600;
+        color: var(--fg);
+      }
+
+      .risk-impact-item .impact-label {
+        font-size: 10px;
+        color: var(--fg2);
+        margin-top: 2px;
+      }
+
+      /* Selected tile pulse */
+      @keyframes selectedPulse {
+        0%, 100% { box-shadow: 0 0 0 0 rgba(242, 201, 143, 0.3); }
+        50% { box-shadow: 0 0 12px 2px rgba(242, 201, 143, 0.15); }
       }
 
       #wrapper {
@@ -787,6 +1016,7 @@
               <button data-mode="ofw">OFW Share</button>
               <button data-mode="informal">Informal %</button>
             </div>
+            <div class="layer-desc" id="layerDesc">Generative AI and LLM-driven task reshaping risk (0–10 scale)</div>
           </div>
           <div class="stat-section industry-filter">
             <h3>Filter by Industry</h3>
@@ -799,6 +1029,7 @@
             <div class="filter-note" id="industryFilterNote">
               Showing all occupations
             </div>
+            <div class="kbd-hint" id="filterHint"><kbd>Esc</kbd> to reset zoom · <kbd>Ctrl</kbd>+scroll to zoom</div>
           </div>
           <div class="gradient-legend">
             <span id="legendLow">Low exposure</span>
@@ -807,18 +1038,19 @@
           </div>
         </div>
 
-        <div class="stats-row">
+        <div class="stats-row" id="statsRow">
           <div class="stat-section">
             <h3>Total jobs</h3>
-            <div class="stat-big" id="statTotalJobs">&mdash;</div>
+            <div class="stat-big" id="statTotalJobs"><span class="skeleton skeleton-stat"></span></div>
+            <div class="stat-label" id="statTotalLabel">loading data…</div>
           </div>
-          <div class="stat-section" id="block2"></div>
-          <div class="stat-section" id="block3"></div>
-          <div class="stat-section" id="block4"></div>
-          <div class="stat-section" id="block5"></div>
-          <div class="stat-section" id="block6"></div>
-          <div class="stat-section" id="block7"></div>
-          <div class="stat-section" id="block8"></div>
+          <div class="stat-section" id="block2"><div class="skeleton skeleton-block"></div></div>
+          <div class="stat-section" id="block3"><div class="skeleton skeleton-block"></div></div>
+          <div class="stat-section" id="block4"><div class="skeleton skeleton-block"></div></div>
+          <div class="stat-section" id="block5"><div class="skeleton skeleton-block"></div></div>
+          <div class="stat-section" id="block6"><div class="skeleton skeleton-block"></div></div>
+          <div class="stat-section" id="block7"><div class="skeleton skeleton-block"></div></div>
+          <div class="stat-section" id="block8"><div class="skeleton skeleton-block"></div></div>
         </div>
       </header>
 
@@ -831,10 +1063,13 @@
     </div>
 
     <div id="tooltip">
+      <div class="tt-category"></div>
       <div class="tt-title"></div>
+      <div class="tt-percentile"></div>
       <div class="tt-exposure"></div>
       <div class="tt-stats"></div>
       <div class="tt-rationale"></div>
+      <div class="tt-click-hint">Click for detailed breakdown</div>
     </div>
 
     <div class="risk-overlay" id="riskOverlay"></div>
@@ -843,6 +1078,8 @@
         <div>
           <div class="risk-title" id="riskTitle">Risk Vector Explainer</div>
           <div class="risk-meta" id="riskMeta"></div>
+          <div class="risk-gauge" id="riskGauge"></div>
+          <div class="risk-comparative" id="riskComparative"></div>
         </div>
         <button
           class="risk-close"
@@ -868,6 +1105,14 @@
         <div class="risk-card">
           <h4>Occupation context</h4>
           <p id="riskOccupationContext"></p>
+        </div>
+        <div class="risk-card">
+          <h4>Economic footprint</h4>
+          <div class="risk-impact-row" id="riskImpact"></div>
+        </div>
+        <div class="risk-card">
+          <h4>Similar occupations</h4>
+          <div class="risk-related" id="riskRelated"></div>
         </div>
       </div>
     </aside>
@@ -976,6 +1221,74 @@
           ],
         },
       };
+
+      const LAYER_DESCRIPTIONS = {
+        exposure: 'Generative AI and LLM-driven task reshaping risk (0\u201310 scale)',
+        pay: 'Average monthly wage in Philippine pesos (PSA OWS 2024)',
+        education: 'Typical education level required for entry (O*NET Job Zones)',
+        outlook: 'Hiring intensity based on PhilJobNet and IBPAP postings (0\u2013100)',
+        ofw: 'Share of PSOC group working overseas (PSA SOF 2024)',
+        informal: 'Estimated share working in the informal sector',
+      };
+
+      function updateLayerDesc() {
+        const el = document.getElementById('layerDesc');
+        if (el) el.textContent = LAYER_DESCRIPTIONS[colorMode] || '';
+      }
+
+      /** Returns a percentile string like "Higher than 73% of occupations" */
+      function getPercentileRank(occupation, field) {
+        if (occupation[field] == null) return '';
+        const val = occupation[field];
+        let below = 0, total = 0;
+        for (const d of allData) {
+          if (d[field] != null) {
+            total++;
+            if (d[field] < val) below++;
+          }
+        }
+        if (total === 0) return '';
+        const pct = Math.round((below / total) * 100);
+        return `Higher than ${pct}% of occupations`;
+      }
+
+      function computePercentileText(d) {
+        if (colorMode === 'exposure') return getPercentileRank(d, 'exposure');
+        if (colorMode === 'pay') return getPercentileRank(d, 'pay');
+        if (colorMode === 'outlook') return getPercentileRank(d, 'outlook');
+        if (colorMode === 'ofw') return getPercentileRank(d, 'ofw_share');
+        if (colorMode === 'informal') return getPercentileRank(d, 'informal_share');
+        if (colorMode === 'education') {
+          const edu = d.education || 0;
+          if (edu <= 0) return '';
+          let below = 0, total = 0;
+          for (const o of allData) {
+            if (o.education != null && o.education > 0) {
+              total++;
+              if (o.education < edu) below++;
+            }
+          }
+          if (total === 0) return '';
+          return `Higher than ${Math.round((below / total) * 100)}% of occupations`;
+        }
+        return '';
+      }
+
+      /** Render an inline mini bar for the tooltip stats */
+      function miniBar(fraction, color) {
+        const pct = Math.max(0, Math.min(100, fraction * 100));
+        return `<span class="mini-bar"><span class="mini-bar-fill" style="width:${pct}%;background:${color}"></span></span>`;
+      }
+
+      /** Find 3 occupations with similar exposure score */
+      function findRelatedOccupations(occupation, count) {
+        if (!occupation || occupation.exposure == null) return [];
+        const target = occupation.exposure;
+        return allData
+          .filter(d => d.title !== occupation.title && d.exposure != null)
+          .sort((a, b) => Math.abs(a.exposure - target) - Math.abs(b.exposure - target))
+          .slice(0, count);
+      }
 
       function boostContrast(t) {
         const c = (t - 0.5) * 2;
@@ -1456,7 +1769,24 @@
         document.getElementById("riskTitle").textContent = occupation.title;
         document.getElementById("riskMeta").innerHTML =
           `<span>Risk vector: <b>${label}</b></span>` +
-          `<span>Exposure: <b>${occupation.exposure != null ? occupation.exposure + "/10" : "—"}</b></span>`;
+          `<span>${occupation.psoc_label ? occupation.psoc_label : ''}</span>`;
+
+        // Exposure gauge bar
+        const gaugeEl = document.getElementById("riskGauge");
+        if (occupation.exposure != null) {
+          const eColor = exposureColor(occupation.exposure, 1);
+          gaugeEl.innerHTML =
+            `<div class="risk-gauge-bar"><div class="risk-gauge-fill" style="width:${occupation.exposure * 10}%;background:${eColor}"></div></div>` +
+            `<div class="risk-gauge-label" style="color:${eColor}">${occupation.exposure}/10</div>`;
+        } else {
+          gaugeEl.innerHTML = '';
+        }
+
+        // Comparative percentile
+        const compEl = document.getElementById("riskComparative");
+        const pctText = getPercentileRank(occupation, 'exposure');
+        compEl.textContent = pctText ? `${pctText} in AI exposure` : '';
+
         document.getElementById("riskMeaning").textContent = info.meaning;
         setListItems("riskChanges", info.changes);
         setListItems("riskHuman", info.human);
@@ -1464,10 +1794,38 @@
           occupation.exposure_rationale ||
           "This occupation has limited rationale text available in the current dataset.";
 
+        // Economic footprint
+        const impactEl = document.getElementById("riskImpact");
+        const monthlyWages = (occupation.pay && occupation.jobs) ? occupation.pay * occupation.jobs : null;
+        impactEl.innerHTML = `
+          <div class="risk-impact-item">
+            <div class="impact-val">${occupation.jobs ? formatNumber(occupation.jobs) : '\u2014'}</div>
+            <div class="impact-label">total employment</div>
+          </div>
+          <div class="risk-impact-item">
+            <div class="impact-val">${formatPay(occupation.pay)}</div>
+            <div class="impact-label">avg monthly wage</div>
+          </div>
+          <div class="risk-impact-item">
+            <div class="impact-val">${monthlyWages ? formatLargePhpAmount(monthlyWages) : '\u2014'}</div>
+            <div class="impact-label">monthly payroll</div>
+          </div>`;
+
+        // Related occupations
+        const related = findRelatedOccupations(occupation, 3);
+        const relatedEl = document.getElementById("riskRelated");
+        relatedEl.innerHTML = related.map(r =>
+          `<div class="risk-related-item">
+            <span class="related-title">${r.title}</span>
+            <span class="related-score" style="color:${exposureColor(r.exposure, 1)}">${r.exposure}/10</span>
+          </div>`
+        ).join('');
+
         document.getElementById("riskOverlay").classList.add("visible");
         const panel = document.getElementById("riskPanel");
         panel.classList.add("visible");
         panel.setAttribute("aria-hidden", "false");
+        requestDraw();
       }
 
       function closeRiskExplainer() {
@@ -1476,6 +1834,7 @@
         const panel = document.getElementById("riskPanel");
         panel.classList.remove("visible");
         panel.setAttribute("aria-hidden", "true");
+        requestDraw();
       }
 
       function fitCanvasText(text, maxWidth, font) {
@@ -1590,17 +1949,22 @@
         }
         for (const r of rects) {
           const isHovered = r === hovered;
+          const isSelected = selectedOccupation && r.title === selectedOccupation.title;
           const g = GAP / 2,
             rx = r.rx + g,
             ry = r.ry + g,
             rw = r.rw - g * 2,
             rh = r.rh - g * 2;
           if (rw <= 0 || rh <= 0) continue;
-          ctx.fillStyle = tileColorCSS(r, isHovered ? 0.8 : 0.5);
+          ctx.fillStyle = tileColorCSS(r, isHovered ? 0.8 : isSelected ? 0.7 : 0.5);
           ctx.fillRect(rx, ry, rw, rh);
-          if (isHovered) {
+          if (isSelected) {
             ctx.strokeStyle = "#f2c98f";
-            ctx.lineWidth = 2 / Math.max(1, zoomScale);
+            ctx.lineWidth = 2.5 / Math.max(1, zoomScale);
+            ctx.strokeRect(rx, ry, rw, rh);
+          } else if (isHovered) {
+            ctx.strokeStyle = "#f2c98f";
+            ctx.lineWidth = 1.5 / Math.max(1, zoomScale);
             ctx.strokeRect(rx, ry, rw, rh);
           }
         }
@@ -1788,17 +2152,24 @@
       function showTooltip(d, mx, my) {
         const tt = document.getElementById("tooltip");
         tt.classList.toggle("compact", compactLayout);
+        tt.querySelector(".tt-category").textContent = d.psoc_label || d.category || '';
         tt.querySelector(".tt-title").textContent = d.title;
+        const pctText = computePercentileText(d);
+        tt.querySelector(".tt-percentile").textContent = pctText;
+        tt.querySelector(".tt-percentile").style.display = pctText ? 'block' : 'none';
         tt.querySelector(".tt-exposure").innerHTML = tooltipHighlight(d);
         tt.querySelector(".tt-stats").innerHTML = `
-    <span class="label">AI exposure</span><span class="value">${d.exposure != null ? d.exposure + "/10" : "\u2014"}</span>
-    <span class="label">Avg monthly wage (\u20b1)</span><span class="value">${formatPay(d.pay)}</span>
-    <span class="label">Hiring intensity (0–100)</span><span class="value">${d.outlook != null ? Math.round(d.outlook) : "\u2014"}</span>
-    <span class="label">OFW share</span><span class="value">${d.ofw_share != null ? (d.ofw_share * 100).toFixed(1) + "%" : "\u2014"}</span>
-    <span class="label">Informal sector</span><span class="value">${d.informal_share != null ? (d.informal_share * 100).toFixed(1) + "%" : "\u2014"}</span>
-    <span class="label">Education</span><span class="value">${educationLabel(d.education)}</span>`;
+    <span class="label">AI exposure</span><span class="value">${d.exposure != null ? d.exposure + "/10" : "\u2014"}${d.exposure != null ? miniBar(d.exposure / 10, exposureColor(d.exposure, 0.8)) : ''}</span>
+    <span class="label">Avg monthly wage (\u20b1)</span><span class="value">${formatPay(d.pay)}${d.pay != null ? miniBar(Math.min(1, (Math.log(Math.max(6000, d.pay)) - Math.log(6000)) / (Math.log(100000) - Math.log(6000))), payColor(d.pay, 0.8)) : ''}</span>
+    <span class="label">Hiring intensity (0\u2013100)</span><span class="value">${d.outlook != null ? Math.round(d.outlook) : "\u2014"}${d.outlook != null ? miniBar(d.outlook / 100, outlookColor(d.outlook, 0.8)) : ''}</span>
+    <span class="label">OFW share</span><span class="value">${d.ofw_share != null ? (d.ofw_share * 100).toFixed(1) + "%" : "\u2014"}${d.ofw_share != null ? miniBar(d.ofw_share, ofwColor(d.ofw_share, 0.8)) : ''}</span>
+    <span class="label">Informal sector</span><span class="value">${d.informal_share != null ? (d.informal_share * 100).toFixed(1) + "%" : "\u2014"}${d.informal_share != null ? miniBar(d.informal_share, informalColor(d.informal_share, 0.8)) : ''}</span>
+    <span class="label">Education</span><span class="value">${educationLabel(d.education)}</span>
+    <span class="label">Employment</span><span class="value">${d.jobs ? formatNumber(d.jobs) + ' jobs' : '\u2014'}</span>`;
         tt.querySelector(".tt-rationale").textContent =
           colorMode === "exposure" ? d.exposure_rationale || "" : "";
+        const hintEl = tt.querySelector('.tt-click-hint');
+        if (hintEl) hintEl.style.display = compactLayout ? 'none' : 'block';
         if (compactLayout) {
           tt.style.left = "";
           tt.style.top = "";
@@ -1889,8 +2260,13 @@
 
       function updateStats() {
         const totalJobs = data.reduce((s, d) => s + (d.jobs || 0), 0);
-        document.getElementById("statTotalJobs").textContent =
-          (totalJobs / 1e6).toFixed(0) + "M";
+        const totalJobsEl = document.getElementById("statTotalJobs");
+        totalJobsEl.textContent = (totalJobs / 1e6).toFixed(0) + "M";
+        totalJobsEl.classList.remove('stat-animated');
+        void totalJobsEl.offsetWidth; // trigger reflow
+        totalJobsEl.classList.add('stat-animated');
+        const labelEl = document.getElementById("statTotalLabel");
+        if (labelEl) labelEl.textContent = `across ${data.length} occupations`;
 
         if (colorMode === "outlook") updateOutlookStats(totalJobs);
         else if (colorMode === "pay") updatePayStats(totalJobs);
@@ -2702,9 +3078,20 @@
           .querySelectorAll("#colorToggle button")
           .forEach((b) => b.classList.remove("active"));
         btn.classList.add("active");
+        // Update layer description
+        updateLayerDesc();
+        // Auto-close risk panel on layer switch to avoid context mismatch
+        closeRiskExplainer();
+        // Canvas fade transition for smooth layer switch
+        canvas.classList.add('switching');
         updateStats();
         drawGradientLegend();
-        draw();
+        requestAnimationFrame(() => {
+          draw();
+          requestAnimationFrame(() => {
+            canvas.classList.remove('switching');
+          });
+        });
         // Re-layout since stats height may have changed
         requestAnimationFrame(resize);
       });
@@ -2750,6 +3137,7 @@
               .forEach((b) => b.classList.remove("active"));
             activeBtn.classList.add("active");
           }
+          updateLayerDesc();
           populateIndustryFilter();
           applyIndustryFilter();
         });
