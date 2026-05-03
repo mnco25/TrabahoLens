@@ -1,10 +1,19 @@
-# TrabahoLens
+# TrabahoLens — Philippine Job Market Visualizer
 
-TrabahoLens is a small research project for exploring Philippine occupations, employment size, wages, and generative-AI exposure in a static treemap view.
+TrabahoLens is a research tool for exploring the Philippine labor market through an interactive, data-dense treemap. It visualizes 173 occupations across dimensions like employment size, wages, education requirements, and **Generative AI (LLM) exposure**.
 
-The repository is open-source-ready and runnable out of the box: the committed demo data is already built, so you can launch the site locally without any API key.
+Inspired by [karpathy.ai/jobs](https://karpathy.ai/jobs/), this adaptation is tailored for the Philippine context using data from the Philippine Statistics Authority (PSA) and O*NET.
 
-## Quickstart
+## 🚀 Key Features
+
+- **Interactive Treemap**: Explore the labor market at scale, where tile area represents employment volume.
+- **AI Exposure Scoring**: Specialized rubric for measuring task reshaping risk from Large Language Models (LLMs).
+- **Economic Footprint**: Real-time stats on total jobs, monthly payrolls, and informal sector prevalence.
+- **Bento Dashboard**: A world-class, "morphic" UI with smooth transitions and glassmorphic details.
+- **PWA Ready**: Installable as a mobile app with offline-capable metadata and theme support.
+- **Multi-Layer Analysis**: Toggle between AI exposure, wages, education, OFW share, and hiring intensity.
+
+## 🛠️ Quickstart
 
 ```bash
 uv sync
@@ -13,68 +22,46 @@ uv run python scripts/serve.py
 
 Then open [http://127.0.0.1:8000](http://127.0.0.1:8000).
 
-## Common Commands
+## 📊 Common Commands
 
 ```bash
-# Run code + data checks before opening a PR
+# Run code + data checks
 uv run python scripts/check.py
 
-# Rebuild site/data.json from the committed derived CSV + score cache
+# Rebuild site dataset (site/data.json)
 uv run python scripts/build_site_data.py
 
-# Rebuild the derived CSV from the stats JSON
-uv run python scripts/make_csv_ph.py
-
-# Optional: rescore occupations with OpenRouter, then rebuild the site data
-cp .env.example .env
-# add OPENROUTER_API_KEY to .env
-uv run python scripts/score_ai_only.py
-uv run python scripts/build_site_data.py
-
-# Optional: score with a specific OpenRouter model
+# Optional: Rescore occupations with OpenRouter
+# (Requires OPENROUTER_API_KEY in .env)
 uv run python scripts/score_ai_only.py --model claude-3-5-haiku
-uv run python scripts/score_ai_only.py --model google/gemini-2.5-flash
-uv run python scripts/score_ai_only.py --model openai/gpt-4o-mini
 ```
 
-## Data Layout
+Detailed scoring instructions can be found in [docs/openrouter-setup.md](docs/openrouter-setup.md).
 
-- `data/reference/occupations_seed.json`
-  Curated source/reference occupation records used to guide PH-specific shaping.
-- `data/derived/occupations_ph.csv`
-  Derived occupation table used by the supported scoring and site build steps.
-- `data/derived/scores_ai_only.json`
-  Derived AI exposure cache used by the site.
-- `site/data.json`
-  Built frontend dataset used by the static visualization.
-- `data/raw/`
-  Ignored local-only fetch output for O*NET and PSA downloads.
+## 🧪 Methodology
 
-Only the files needed for local viewing and optional rescoring are committed. Pipeline intermediates are regenerated locally and ignored.
+### Data Sources
+- **PSA LFS & OWS 2024**: Employment totals and wage reference material.
+- **PSA Survey on Overseas Filipinos**: For calculating OFW share per occupational group.
+- **O*NET 30.2**: For occupation descriptions and Job Zone (education) data.
+- **PhilJobNet & IBPAP**: For real-time hiring intensity signals.
 
-## Pipeline
+### AI Exposure Scoring
+We use an LLM-powered pipeline to score occupations on a 0–10 scale based on their potential for **Generative AI task reshaping**.
+- **Included**: Task automation in coding, writing, analysis, and routine knowledge work.
+- **Excluded**: Physical machinery automation, robotics, and platform-based dispatch algorithms.
 
-The supported pipeline is:
+## 📁 Data Layout
 
-```bash
-uv run python scripts/fetch_onet.py
-uv run python scripts/filter_ph_occupations.py
-uv run python scripts/assign_ph_stats.py
-uv run python scripts/make_csv_ph.py
-uv run python scripts/score_ai_only.py   # optional, requires OPENROUTER_API_KEY
-uv run python scripts/build_site_data.py
-```
+- `data/reference/occupations_seed.json`: Curated source occupation records.
+- `data/derived/occupations_ph.csv`: Main derived occupation table.
+- `data/derived/scores_ai_only.json`: AI exposure cache used by the site.
+- `site/data.json`: Final built dataset for the frontend.
 
-The repo keeps the derived demo artifacts committed so contributors can inspect the visualization without rerunning the whole pipeline.
+## 📜 Documentation
 
-## Data Sources
-
-- [O*NET 30.2 Database](https://www.onetcenter.org/database.html) for occupation descriptions and job-zone inputs
-- [Philippine Statistics Authority OpenSTAT](https://openstat.psa.gov.ph/) for employment and wage reference material used during dataset construction
-
-## Notes
-
-- `OPENROUTER_API_KEY` is only needed for rescoring.
-- The default scorer model is `claude-3-5-haiku`.
-- You can switch models through OpenRouter with `--model`, including Claude, Gemini, GPT, and other compatible providers.
-- More detailed scoring notes live in `docs/openrouter-setup.md`.
+- [CLAUDE.md](CLAUDE.md): Development guide and code standards.
+- [AGENTS.md](AGENTS.md): AI scoring rubric and agent role descriptions.
+- [CHANGELOG.md](CHANGELOG.md): History of project updates.
+- [CONTRIBUTING.md](CONTRIBUTING.md): Guidelines for project contributors.
+- [SECURITY.md](SECURITY.md): Security reporting policy.
